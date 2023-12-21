@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>cryptography on CT</title>
+    <link>http://treseco.github.io/tags/cryptography/</link>
+    <description>Recent content in cryptography on CT</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 23 May 2023 19:01:07 -0400</lastBuildDate><atom:link href="http://treseco.github.io/tags/cryptography/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>Either or Neither nor</title>
+      <link>http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</link>
+      <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
+      
+      <guid>http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</guid>
+      <description><![CDATA[<h3 id="either-or-neither-nor">Either or Neither nor</h3>
+<ul>
+<li>Category: crypto</li>
+<li>Points: 100</li>
+</ul>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>chal.py</code> - Python script, ASCII text executable</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>The contents of chal.py tell us that the flag has been xored with a key and we only have the resulting encrypted flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#! /usr/bin/env python </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;XXXXXXXXXXXXXXXXXXXXX&#34;</span> 
+</span></span><span style="display:flex;"><span>enc_flag <span style="color:#f92672">=</span> [<span style="color:#ae81ff">91</span>,<span style="color:#ae81ff">241</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">166</span>,<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">192</span>,<span style="color:#ae81ff">87</span>,<span style="color:#ae81ff">188</span>,<span style="color:#ae81ff">110</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">98</span>,<span style="color:#ae81ff">252</span>,<span style="color:#ae81ff">34</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">117</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">162</span>,<span style="color:#ae81ff">107</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>KEY_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Encrypt the flag </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, c <span style="color:#f92672">in</span> enumerate(flag): 
+</span></span><span style="display:flex;"><span>	enc_flag <span style="color:#f92672">=</span> ord(c) <span style="color:#f92672">^</span> key[idx <span style="color:#f92672">%</span> len(key)]
+</span></span></code></pre></div><p>The xor operation has properties that make it simple to reverse. If <code>a ^ b = c</code> then <code>c ^ b = a</code>. Because we have the encrypted flag, and the encrypted bytes are equal to <code>f ^ k</code> where <code>f</code> and <code>k</code> are the flag bytes and the key bytes respectively, we can figure out bytes of the flag from bytes of the key and vice versa. Because we know the flag format is &lsquo;MetaCTF{}&rsquo;, we can find the key by individually xoring the first four bytes of the encrypted flag with the known first four bytes of the flag &lsquo;Meta&rsquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># encrypted flag</span>
+</span></span><span style="display:flex;"><span>enc_flag <span style="color:#f92672">=</span> [<span style="color:#ae81ff">91</span>,<span style="color:#ae81ff">241</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">166</span>,<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">192</span>,<span style="color:#ae81ff">87</span>,<span style="color:#ae81ff">188</span>,<span style="color:#ae81ff">110</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">98</span>,<span style="color:#ae81ff">252</span>,<span style="color:#ae81ff">34</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">117</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">162</span>,<span style="color:#ae81ff">107</span>]
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>] 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># calculate key from enc_flag and known start of flag</span>
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;M&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;e&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;t&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;a&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># print decrypted flag</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, c <span style="color:#f92672">in</span> enumerate(enc_flag):
+</span></span><span style="display:flex;"><span>    print(chr(c <span style="color:#f92672">^</span> key[idx <span style="color:#f92672">%</span> len(key)]), end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><p>Flag: <code>MetaCTF{x0r_th3_c0re}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

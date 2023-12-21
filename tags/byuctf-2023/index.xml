@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>BYUCTF 2023 on CT</title>
+    <link>http://treseco.github.io/tags/byuctf-2023/</link>
+    <description>Recent content in BYUCTF 2023 on CT</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 22 May 2023 16:05:08 -0500</lastBuildDate><atom:link href="http://treseco.github.io/tags/byuctf-2023/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>Ducky1</title>
+      <link>http://treseco.github.io/posts/byuctf23/ducky1/</link>
+      <pubDate>Mon, 22 May 2023 16:05:08 -0500</pubDate>
+      
+      <guid>http://treseco.github.io/posts/byuctf23/ducky1/</guid>
+      <description><![CDATA[<h3 id="ducky1">Ducky1</h3>
+<ul>
+<li>Category: Rev</li>
+<li>Difficulty: Easy</li>
+<li>Points: 100</li>
+<li>Solves: 185</li>
+</ul>
+<hr>
+<h4 id="description">Description</h4>
+<blockquote>
+<p>I recently got ahold of a Rubber Ducky, and have started automating ALL of my work tasks with it! You should check it out!</p>
+</blockquote>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>inject.bin</code> - data</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>The contents of <code>inject.bin</code> dosn&rsquo;t give us much information.</p>
+<pre tabindex="0"><code>$ xxd inject.bin
+00000000: 00ff 00ff 00ff 00ff 00ff 00ff 00ff 00ff  ................
+	...
+00000350: 00ff 00ff 00ff 00ff 00ff 00ff 00ff 005f  ..............._
+00000360: 0500 1c00 1800 0600 1700 0900 2f02 1700  ............/...
+00000370: 0b00 0c00 1600 2d02 1a00 0400 1600 2d02  ......-.......-.
+00000380: 0d00 1800 1600 1700 2d02 0400 1100 2d02  ........-.....-.
+00000390: 0c00 1100 1700 1500 1200 2d02 0400 0f00  ..........-.....
+000003a0: 1500 0c00 0a00 0b00 1700 3802 3802 3002  ..........8.8.0.
+</code></pre><p>The description tells us that this file is a &ldquo;Rubber Ducky&rdquo;, and resarching this tells us that a Rubber Ducky is keyboard device that appears like a USB drive and sends a keystroke payload when pluged into a computer. Further research shows some tools that can be used to encode and decode these rubber ducky payloads, such as <a href="https://github.com/kevthehermit/DuckToolkit">DuckToolkit</a>. Using Ducktoolkit we can decode <code>inject.bin</code>.</p>
+<pre tabindex="0"><code>$ python3 ducktools.py -d -l us ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+byuctf{this_was_just_an_intro_alright??}[+] Process Complete
+</code></pre><p>After decoding we get the flag.
+<code>byuctf{this_was_just_an_intro_alright??}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Ducky2</title>
+      <link>http://treseco.github.io/posts/byuctf23/ducky2/</link>
+      <pubDate>Mon, 22 May 2023 16:05:08 -0500</pubDate>
+      
+      <guid>http://treseco.github.io/posts/byuctf23/ducky2/</guid>
+      <description><![CDATA[<p>#writeup</p>
+<h1 id="ducky2">Ducky2</h1>
+<ul>
+<li>Category: Rev</li>
+<li>Difficulty: Medium</li>
+<li>Points: 476</li>
+<li>Solves: 36</li>
+</ul>
+<hr>
+<h5 id="description">Description</h5>
+<blockquote>
+<p>Okay, turnsk out that wask too easy to decode. You skhoud definitely try thisk one now!
+(<em>Note - Ducky3 is unlocked after solving this challenge</em>)</p>
+</blockquote>
+<hr>
+<h5 id="files">Files</h5>
+<p><code>inject.bin</code> - data</p>
+<hr>
+<h5 id="solve">Solve</h5>
+<p>We are given a very similar file to <code>inject.bin</code> from ducky1. Let&rsquo;s try to decode this one with <a href="https://github.com/kevthehermit/DuckToolkit">DuckToolkit</a> as well.</p>
+<pre tabindex="0"><code>$ python3 ducktools.py -d -l us ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+bzuctfmakesurezourkezboardissetupright|_}|&#34;}|[+] Process Complete
+</code></pre><p>Ok, that didn&rsquo;t seem to work but it does give us a hint by telling us to &lsquo;make sure your keyboard is set up right&rsquo;. DuckToolkit does give us the option of decoding using different languages so this is something to try. We just need to determine what language this could be.</p>
+<p>Most characters seem to decode correctly, we can see that &lsquo;bzuctf&rsquo; is probably supposed to be &lsquo;byuctf&rsquo;. By compareing the data in <code>inject.bin</code> from ducky1 to the data in <code>inject.bin</code> from ducky2, we can determine what keycodes should print what characters. Using the language files in <code>DuckToolkit/ducktoolkit/languages</code> will be helpful for figuring out the keycodes.</p>
+<blockquote>
+<p>[!WARNING]
+Installing DuckToolkit via pip will not include all of the language files in the github repo, so it is advised to install from github for this challenge.</p>
+</blockquote>
+<p>ducky1 <code>inject.bin</code> with lang = &lsquo;us&rsquo;:</p>
+<pre tabindex="0"><code>00000360: 0500 1c00 1800 0600 1700 0900 2f02  -&gt; decodes to -&gt; &#39;byuctf{&#39;
+          b    y    u    c    t    f    {
+</code></pre><p>ducky2 <code>inject.bin</code> with lang = ?:</p>
+<pre tabindex="0"><code>00000360: 0500 1d00 1800 0600 1700 0900 0505  -&gt; decodes to -&gt; &#39;bzuctf&#39;
+          b    z(y) u    c    t    f    ({)
+</code></pre><p>We can see that the language we need encodes &lsquo;{&rsquo; as &lsquo;0505&rsquo;, so the correct language will have this line in the language file:
+<code>&quot;{&quot;:&quot;05,00,05&quot;,</code></p>
+<p>It turns out there are two languages, Czech and Slovak, that have this property and decode the payload without issues.</p>
+<pre tabindex="0"><code>$ python3 ducktools.py -d -l cz ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+byuctf{makesureyourkeyboardissetupright&#39;@&amp;%(#@&#39;!(#*$&#39;}[+] Process Complete
+$ python3 ducktools.py -d -l sk ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+byuctf{makesureyourkeyboardissetupright)@&amp;%(#@)!(#*$)}[+] Process Complete
+</code></pre><p>Aside from the numerous intentional &lsquo;sk&rsquo; typos in the challenge description, it is not obvious which flag is correct but trying both will reveal the correct flag.
+<code>byuctf{makesureyourkeyboardissetupright)@&amp;%(#@)!(#*$)}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Ducky3</title>
+      <link>http://treseco.github.io/posts/byuctf23/ducky3/</link>
+      <pubDate>Mon, 22 May 2023 16:05:08 -0500</pubDate>
+      
+      <guid>http://treseco.github.io/posts/byuctf23/ducky3/</guid>
+      <description><![CDATA[<h3 id="ducky3">Ducky3</h3>
+<ul>
+<li>Category: Rev</li>
+<li>Difficulty: Medium</li>
+<li>Points: 497</li>
+<li>Solves: 14</li>
+</ul>
+<hr>
+<h4 id="description">Description</h4>
+<blockquote>
+<p>Alright fine, I&rsquo;ll make my own keyboard layout&hellip;</p>
+</blockquote>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>inject.bin</code> - data
+<code>payload.txt</code> - ASCII text</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>This challenge only provided another <code>inject.bin</code> file initially. As the description says, this file dosn&rsquo;t seem to match any language, and appears to be custom made. The challenge was later fixed to include <code>payload.txt</code>.</p>
+<pre tabindex="0"><code>STRING abcdefghijklmnopqrstuvwxyz
+STRING ABCDEFGHIJKLMNOPQRSTUVWXYZ
+STRING 0123456789
+STRING !@#$%^&amp;*()-_
+STRING
+</code></pre><p><code>payload.txt</code> seems to be part of the payload that was encoded into <code>inject.bin</code>. Looking into how the <a href="https://github.com/kevthehermit/DuckToolkit/blob/master/ducktoolkit/encoder.py">DuckToolkit encoder</a> works reveals that &lsquo;STRING&rsquo; will simply encode the following string in the payload. This tells us that first part of <code>inject.bin</code>  encodes the string <code>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*()-_</code></p>
+<p>We can use this to figure out the keycodes and decode the rest of the file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fpath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./inject.bin&#39;</span>
+</span></span><span style="display:flex;"><span>ht <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>keystr <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*()-_&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#keys[&#39;{  0x65}&#39;] = &#39;C&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#keys[&#39;{2 0x6}&#39;] = &#39;{&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#keys[&#39;{2 0x10}&#39;] = &#39;}&#39;</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># read in data from inject.bin</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(fpath, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> file:
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read_keycode</span>(data, datidx):
+</span></span><span style="display:flex;"><span>    keycode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> data[datidx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>: <span style="color:#75715e"># determine shift modifier from second byte</span>
+</span></span><span style="display:flex;"><span>        keycode <span style="color:#f92672">=</span> keycode <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;{2 &#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        keycode <span style="color:#f92672">=</span> keycode <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;{  &#39;</span>
+</span></span><span style="display:flex;"><span>    keycode <span style="color:#f92672">=</span> keycode <span style="color:#f92672">+</span> hex(data[datidx]) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;}&#39;</span> <span style="color:#75715e"># determine keycode from first byte</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> keycode
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># iterate over keystring and map keycodes to chars</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> stridx, c <span style="color:#f92672">in</span> enumerate(keystr):
+</span></span><span style="display:flex;"><span>    datidx <span style="color:#f92672">=</span> stridx <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e"># keycodes are 2 bytes</span>
+</span></span><span style="display:flex;"><span>    keycode <span style="color:#f92672">=</span> read_keycode(data, datidx)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># map keycode to key character</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> (keycode <span style="color:#f92672">in</span> keys):
+</span></span><span style="display:flex;"><span>        keys[keycode] <span style="color:#f92672">=</span> keystr[stridx]
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># iterate over data and print decoded keys</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datidx <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(data), <span style="color:#ae81ff">2</span>):
+</span></span><span style="display:flex;"><span>    keycode <span style="color:#f92672">=</span> read_keycode(data, datidx)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> keycode <span style="color:#f92672">in</span> keys:
+</span></span><span style="display:flex;"><span>        print(keys[keycode], end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        print(keycode, end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><p>Because the encodings for &lsquo;{&rsquo; and &lsquo;}&rsquo; were not given, we have to figure out their mappings. This is simple because they are the only two unmapped chars. The characters &lsquo;b&rsquo; and &lsquo;C&rsquo; also have the same keycode of 0x6500 for some reason but we can manually map these values by uncommenting the following lines.</p>
+<pre tabindex="0"><code>#keys[&#39;{  0x65}&#39;] = &#39;C&#39;
+#keys[&#39;{2 0x6}&#39;] = &#39;{&#39;
+#keys[&#39;{2 0x10}&#39;] = &#39;}&#39;
+</code></pre><p>This allows us to determine the flag.
+<code>byuctf{1_h0p3_y0u_enj0yed-thi5_very_muCH}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

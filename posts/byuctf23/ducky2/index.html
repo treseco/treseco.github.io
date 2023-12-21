@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+    
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+    <link
+    rel="icon"
+    href='/favicon.png'
+/>
+<link
+    rel="shortcut icon"
+    href='/favicon.ico'
+    type="image/x-icon"
+/>
+<link
+    rel="apple-touch-icon"
+    href='/apple-touch-icon.png'
+/>
+
+    <link
+        rel="icon"
+        href='/logo.svg'
+        type="image/svg+xml"
+    />
+
+<title>
+        
+            Ducky2  &ndash;
+        
+        CT
+    </title>
+
+    
+    <link href="/symbols-nerd-font/symbols-nerd-font.css" rel="stylesheet" integrity="sha512-lydow8GLOLlYNOtHlksNCmGWWCBsbIEtikXpHzfWqx78HLlyQZHOzyLwPpKol4Th6aCwLUXOfODVYgwrd3nwKQ=="/>
+    <link href="/jetbrains-mono/jetbrains-mono.css" rel="stylesheet" integrity="sha512-tJxlgL6v1Y7kFf+qB8SloaAMKnOAw6WouknxXtIjkBux9Y/9aX81EUWOJO8c/3l98DmjG8brr4to7zaez606Fg=="/>
+
+    
+    
+    <link type="text/css" rel="stylesheet" href=http://treseco.github.io/css/styles.ec1acc2d78f3ac49113cb5be53eb69e37f5bd505fc7f5d78095f1252cee8c08bb150bc51c2c16f8a864a3373e4847f354c6cc0e0cbc3b4fb581503b3f75f55e7.css integrity="sha512-7BrMLXjzrEkRPLW&#43;U&#43;tp439b1QX8f114CV8SUs7owIuxULxRwsFvioZKM3PkhH81TGzA4MvDtPtYFQOz919V5w==" />
+<meta name="author" content="" />
+
+    
+        <meta name="keywords" content='BYUCTF 2023, ctf write-up, reversing' />
+    
+    
+        <meta name="description" content="gory: Rev Difficulty: Medium Points: 476 Solves: 36 Description Okay, turnsk out that wask too easy to decode. You skhoud definitely try thisk one now! (Note - Ducky3 is unlocked after solving this challenge)
+Files inject.bin - data
+Solve We are given a very similar file to inject.bin from ducky1. Let&amp;rsquo;s try to decode this one with DuckToolkit as well.
+$ python3 ducktools.py -d -l us ../inject.bin /dev/stdout [&#43;] Reading Duck Bin file [-] Decoding file [-] Writing ducky text to /dev/stdout DELAY bzuctfmakesurezourkezboardissetupright|_}|&amp;#34;}|[&#43;] Process Complete Ok, that didn&amp;rsquo;t seem to work but it does give us a hint by telling us to &amp;lsquo;make sure your keyboard is set up right&amp;rsquo;." />
+    
+
+<meta property="og:site_name"
+    content='CT' />
+
+    <meta property="og:title" content="Ducky2" />
+    <meta property="og:type" content="article" />
+    
+    <meta
+        property="article:author" content="" />
+    <meta
+        property="article:published_time"
+        content='2023-05-22T16:05:08Z-0500' />
+    
+        
+            <meta property="article:tag" content="BYUCTF 2023" />
+        
+            <meta property="article:tag" content="ctf write-up" />
+        
+            <meta property="article:tag" content="reversing" />
+        
+    
+    <meta property="og:url" content="http://treseco.github.io/posts/byuctf23/ducky2/" />
+    
+    
+    <meta property="og:image"
+        content="http://treseco.github.io/icon512.png" />
+    
+        <meta property="og:description" content="#writeup
+Ducky2 Category: Rev Difficulty: Medium Points: 476 Solves: 36 Description Okay, turnsk out that wask too easy to decode. You skhoud definitely try thi" />
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:domain"
+      content='reseco.github.io'
+/>
+<meta property="twitter:url" content="http://treseco.github.io/posts/byuctf23/ducky2/" />
+
+
+    <meta name="twitter:title" content="Ducky2" />
+    
+    
+    
+    <meta name="twitter:image"
+        content="http://treseco.github.io/icon512.png" />
+    
+        <meta name="twitter:description" content="#writeup
+Ducky2 Category: Rev Difficulty: Medium Points: 476 Solves: 36 Description Okay, turnsk out that wask too easy to decode. You skhoud definitely try thi" />
+    
+
+<link rel="manifest" href="/manifest/index.json" />
+</head>
+
+
+<body>
+        <div id="baseContainer"><header class="">
+<div class="titleAndSearchContainer">
+        <div id="titleContainer">
+            
+                <a class="unstyledLink" href="/">
+                    <img src='/logo.svg' alt='Logo'/>
+                </a>
+            
+            <div class="rightOfLogo">
+                <div class="titleAndHamburger">
+                    <h1>
+                        <a class="unstyledLink" href="/">CT</a>
+                        
+                    </h1>
+                    
+                        <label id="hamburger-menu" for="main-nav-toggler">
+                            &#xf85b;
+                        </label>
+                    
+                </div>
+                <div id="wide_nav"><nav>
+    
+        <input type="checkbox" id="main-nav-toggler" />
+    
+    <ul id="main-nav">
+        <li><a href="/">Home</a></li>
+        
+            <li><a href="/posts/">Posts</a></li>
+        
+        
+        
+        
+        
+            <li><a href="http://treseco.github.io/pages/about/">
+                About
+            </a></li>
+        
+        
+        
+            <li><a href="/tags/">Tags</a></li>
+        
+        
+    </ul>
+</nav>
+</div>
+            </div>
+        </div>
+        <div class="search">
+    <input id="searchbar" type="text" placeholder='Search' />
+    <span class="nerdlink" onclick="newSearch();">&#xf002;</span>
+</div>
+<script>
+    function newSearch() {
+        let term = searchbar.value.trim();
+        if (!term) return;
+        location.href = `/search/?q=${term}`;
+    }
+    searchbar.onkeyup = (ev) => {if (ev.keyCode == 13) newSearch()};
+</script>
+
+    </div>
+    <div id="links">
+        
+        
+        <a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://github.com/treseco">
+    
+    
+        &#xf09b;
+    
+    <span>
+        Github
+    </span>
+</a>
+
+    </div>
+    
+
+</header>
+<div id="contentContainer">
+                <div id="content">
+                    <main>
+<article class="card single">
+    
+        <h1>Ducky2</h1>
+    
+    
+        <p class="date">
+            <span title='Date'> </span>
+    2023-05-22
+
+</p>
+    
+    
+    
+    
+    <div><p>#writeup</p>
+<h1 id="ducky2">Ducky2</h1>
+<ul>
+<li>Category: Rev</li>
+<li>Difficulty: Medium</li>
+<li>Points: 476</li>
+<li>Solves: 36</li>
+</ul>
+<hr>
+<h5 id="description">Description</h5>
+<blockquote>
+<p>Okay, turnsk out that wask too easy to decode. You skhoud definitely try thisk one now!
+(<em>Note - Ducky3 is unlocked after solving this challenge</em>)</p>
+</blockquote>
+<hr>
+<h5 id="files">Files</h5>
+<p><code>inject.bin</code> - data</p>
+<hr>
+<h5 id="solve">Solve</h5>
+<p>We are given a very similar file to <code>inject.bin</code> from ducky1. Let&rsquo;s try to decode this one with <a href="https://github.com/kevthehermit/DuckToolkit">DuckToolkit</a> as well.</p>
+<pre tabindex="0"><code>$ python3 ducktools.py -d -l us ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+bzuctfmakesurezourkezboardissetupright|_}|&#34;}|[+] Process Complete
+</code></pre><p>Ok, that didn&rsquo;t seem to work but it does give us a hint by telling us to &lsquo;make sure your keyboard is set up right&rsquo;. DuckToolkit does give us the option of decoding using different languages so this is something to try. We just need to determine what language this could be.</p>
+<p>Most characters seem to decode correctly, we can see that &lsquo;bzuctf&rsquo; is probably supposed to be &lsquo;byuctf&rsquo;. By compareing the data in <code>inject.bin</code> from ducky1 to the data in <code>inject.bin</code> from ducky2, we can determine what keycodes should print what characters. Using the language files in <code>DuckToolkit/ducktoolkit/languages</code> will be helpful for figuring out the keycodes.</p>
+<blockquote>
+<p>[!WARNING]
+Installing DuckToolkit via pip will not include all of the language files in the github repo, so it is advised to install from github for this challenge.</p>
+</blockquote>
+<p>ducky1 <code>inject.bin</code> with lang = &lsquo;us&rsquo;:</p>
+<pre tabindex="0"><code>00000360: 0500 1c00 1800 0600 1700 0900 2f02  -&gt; decodes to -&gt; &#39;byuctf{&#39;
+          b    y    u    c    t    f    {
+</code></pre><p>ducky2 <code>inject.bin</code> with lang = ?:</p>
+<pre tabindex="0"><code>00000360: 0500 1d00 1800 0600 1700 0900 0505  -&gt; decodes to -&gt; &#39;bzuctf&#39;
+          b    z(y) u    c    t    f    ({)
+</code></pre><p>We can see that the language we need encodes &lsquo;{&rsquo; as &lsquo;0505&rsquo;, so the correct language will have this line in the language file:
+<code>&quot;{&quot;:&quot;05,00,05&quot;,</code></p>
+<p>It turns out there are two languages, Czech and Slovak, that have this property and decode the payload without issues.</p>
+<pre tabindex="0"><code>$ python3 ducktools.py -d -l cz ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+byuctf{makesureyourkeyboardissetupright&#39;@&amp;%(#@&#39;!(#*$&#39;}[+] Process Complete
+$ python3 ducktools.py -d -l sk ../inject.bin /dev/stdout
+[+] Reading Duck Bin file
+  [-] Decoding file
+  [-] Writing ducky text to /dev/stdout
+DELAY
+byuctf{makesureyourkeyboardissetupright)@&amp;%(#@)!(#*$)}[+] Process Complete
+</code></pre><p>Aside from the numerous intentional &lsquo;sk&rsquo; typos in the challenge description, it is not obvious which flag is correct but trying both will reveal the correct flag.
+<code>byuctf{makesureyourkeyboardissetupright)@&amp;%(#@)!(#*$)}</code></p>
+</div>
+</article>
+
+    <hr />
+    <p class="articleTagsContainer">
+        <span> </span>
+        <strong>Tags:</strong>
+        
+            <a
+                
+                href="/tags/byuctf-2023/">#BYUCTF 2023</a>
+        
+            <a
+                
+                href="/tags/ctf-write-up/">#ctf write-up</a>
+        
+            <a
+                
+                href="/tags/reversing/">#reversing</a>
+        
+    </p>
+
+
+
+
+
+
+                    </main><footer>
+    <hr />
+
+<p><small>
+        2023 &copy; 
+    </small></p>
+    <p><small>
+        <a href='https://gitlab.com/gabmus/hugo-ficurinia'>Ficurinia theme</a> for <a href='https://gohugo.io'>Hugo</a> by <a href='https://gabmus.org'>Gabriele Musco</a>. Licensed under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>GNU AGPLv3</a>.
+    </small></p>
+</footer>
+</div>
+            </div>
+        </div>
+
+
+</body>
+</html>

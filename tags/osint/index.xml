@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>OSINT on CT</title>
+    <link>http://treseco.github.io/tags/osint/</link>
+    <description>Recent content in OSINT on CT</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 03 Sep 2023 16:05:08 -0500</lastBuildDate><atom:link href="http://treseco.github.io/tags/osint/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>DUCTF solves</title>
+      <link>http://treseco.github.io/posts/ductf23/other/</link>
+      <pubDate>Sun, 03 Sep 2023 16:05:08 -0500</pubDate>
+      
+      <guid>http://treseco.github.io/posts/ductf23/other/</guid>
+      <description><![CDATA[<h3 id="all-fathers-wisdom">All Fathers Wisdom</h3>
+<ul>
+<li>Author: Pix</li>
+<li>Category: rev</li>
+<li>Difficulty: beginner</li>
+<li>Points: 100</li>
+<li>Solves: 270</li>
+</ul>
+<hr>
+<h4 id="description">Description</h4>
+<blockquote>
+<p>We found this binary in the backroom, its been marked as &ldquo;The All Fathers Wisdom&rdquo; - See hex for further details. Not sure if its just old and hex should be text, or they mean the literal hex.</p>
+<p>Anyway can you get this &lsquo;wisdom&rsquo; out of the binary for us?</p>
+</blockquote>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>the-all-fathers-wisdom</code> - ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=01eec917a381d4efe62ed137f1349127f4faeeaa, for GNU/Linux 4.4.0, not stripped</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>The given file still includes the function names, so when we decompile it doesn&rsquo;t take long to find the function <code>main.print_flag()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main.<span style="color:#a6e22e">print_flag</span>(undefined8 flag) {
+</span></span><span style="display:flex;"><span>  uint xor_res;
+</span></span><span style="display:flex;"><span>  undefined local_228 [<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>  undefined local_218 [<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>  undefined local_208 [<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> i;
+</span></span><span style="display:flex;"><span>  undefined8 <span style="color:#f92672">*</span>end;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> bound;
+</span></span><span style="display:flex;"><span>  undefined8 local_1d8;
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  undefined8 local_8;
+</span></span><span style="display:flex;"><span>  undefined8 <span style="color:#f92672">*</span>end_ptr;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> j;
+</span></span><span style="display:flex;"><span>  local_8 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x75</span>;
+</span></span><span style="display:flex;"><span>  local_10 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x26</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	...  
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  local_1d0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x25</span>;
+</span></span><span style="display:flex;"><span>  local_1d8 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x25</span>;
+</span></span><span style="display:flex;"><span>  end <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>local_1d8;
+</span></span><span style="display:flex;"><span>  bound <span style="color:#f92672">=</span> <span style="color:#ae81ff">59</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; end_ptr <span style="color:#f92672">=</span> end, j <span style="color:#f92672">=</span> i, i <span style="color:#f92672">&lt;</span> bound; i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>    runtime.<span style="color:#a6e22e">bounds_check_error</span>();
+</span></span><span style="display:flex;"><span>    xor_res <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(uint <span style="color:#f92672">*</span>)(end_ptr <span style="color:#f92672">+</span> j) <span style="color:#f92672">^</span> <span style="color:#ae81ff">0x11</span>;
+</span></span><span style="display:flex;"><span>    local_228 <span style="color:#f92672">=</span> <span style="color:#a6e22e">CONCAT88</span>(<span style="color:#ae81ff">0x4200000000000001</span>,<span style="color:#f92672">&amp;</span>xor_res);
+</span></span><span style="display:flex;"><span>    local_218 <span style="color:#f92672">=</span> <span style="color:#a6e22e">CONCAT88</span>(<span style="color:#ae81ff">0x4200000000000001</span>,<span style="color:#f92672">&amp;</span>xor_res);
+</span></span><span style="display:flex;"><span>    local_208 <span style="color:#f92672">=</span> <span style="color:#a6e22e">CONCAT88</span>(<span style="color:#ae81ff">1</span>,local_218);
+</span></span><span style="display:flex;"><span>    fmt.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%c&#34;</span>,<span style="color:#ae81ff">2</span>,local_218,<span style="color:#ae81ff">1</span>,flag);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This function has many local variables that are assigned values. The for loop interates over the values, xors them with <code>0x11</code>, then prints them. We can can copy these values into a python script to compute the xor and print the flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># byte values in the local vars in main.print_flag() from ghidra</span>
+</span></span><span style="display:flex;"><span>bytes<span style="color:#f92672">=</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x75\x26\x31\x22\x25\x31\x77\x24\x31\x25\x26\x31\x21\x22\x31\x74\x25\x31\x75\x23\x31\x22\x24\x31\x20\x22\x31\x77\x24\x31\x74\x27\x31\x20\x22\x31\x25\x27\x31\x77\x25\x31\x73\x26\x31\x27\x25\x31\x25\x24\x31\x22\x25\x31\x24\x24\x31\x25\x25</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>decode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># xor each byte and append it to decode. ignore spaces.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> b <span style="color:#f92672">in</span> bytes:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> b <span style="color:#f92672">!=</span> <span style="color:#ae81ff">49</span>:
+</span></span><span style="display:flex;"><span>        decode <span style="color:#f92672">+=</span> chr(b <span style="color:#f92672">^</span> <span style="color:#ae81ff">17</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reverse the string. the program loops opposite to how we copied the data</span>
+</span></span><span style="display:flex;"><span>decode <span style="color:#f92672">=</span> decode[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:: <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># convert the decoded hex codes into ascii and print</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(decode), <span style="color:#ae81ff">2</span>):
+</span></span><span style="display:flex;"><span>    print(chr(int(decode[i:i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>], <span style="color:#ae81ff">16</span>)), end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><p><code>DUCTF{Od1n_1S-N0t_C}</code></p>
+<hr>
+<h3 id="monke-bars">Monke Bars</h3>
+<ul>
+<li>Author: ghostccamm</li>
+<li>Category: osint</li>
+<li>Difficulty: easy</li>
+<li>Points: 100</li>
+<li>Solves: 281</li>
+</ul>
+<hr>
+<h4 id="description-1">Description</h4>
+<blockquote>
+<p>I will be dropping my new track <strong>monke bars</strong> soon! But I suck at rap and don&rsquo;t want to share it&hellip;</p>
+<p><em>Can you find the song?</em></p>
+<p>NOTE: Flag is in the format <code>DUCTF{...}</code> with no spaces and all lowercase between the <code>{}</code> characters. e.g. DUCTF{icannotrap}</p>
+</blockquote>
+<hr>
+<h4 id="solve-1">Solve</h4>
+<p>The description tells us we need to find a song <strong>monke bars</strong>, and that the artist is not so good. A search on <a href="https://soundcloud.com/mc-fat-monke/monke-bars">Soundcloud</a> for &ldquo;monke bars&rdquo; yields a song were the artist has left the comment:
+<code>D-U-C-T-F left curly bracket smack it hack it drop that packet crack this track right curly bracket</code>. From this we can get the flag.</p>
+<p><code>DUCTF{smackithackitdropthatpacketcrackthistrack}</code></p>
+<hr>
+<h3 id="my-first-c-program">My First C Program</h3>
+<ul>
+<li>Author: Pix</li>
+<li>Category: misc</li>
+<li>Difficulty: easy</li>
+<li>Points: 100</li>
+<li>Solves: 315</li>
+</ul>
+<hr>
+<h4 id="description-2">Description</h4>
+<blockquote>
+<p>I decided to finally sit down and learn C, and I don&rsquo;t know what all the fuss is about this language it writes like a <em><strong>dream</strong></em>!</p>
+<p>Here is my first challenge in C! Its really easy after you install the C installer installer, after that you just run it and you&rsquo;re free to fly away with the flag like a <em><strong>berd</strong></em>!</p>
+</blockquote>
+<hr>
+<h4 id="files-1">Files</h4>
+<p><code>my_first_c_prog.c</code> - ASCII text</p>
+<hr>
+<h4 id="solve-2">Solve</h4>
+<p><code>my_first_c_prog.c</code> contains a poorly written program in c. The program first sets the values of some variables and then prints out the flag by combining the values of the variables in the following function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>   <span style="color:#66d9ef">union</span> <span style="color:#a6e22e">print_flag</span>(end, middle, secondmiddle, start, realstart) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;The flag is:&#34;</span>)<span style="color:#f92672">!</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;DUCTF{${start}_${realstart}_${end}_${secondmiddle}_1s_${middle}_C}&#34;</span>)<span style="color:#f92672">!!!</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Now to print the flag for the CTF!!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">print_flag</span>(thank, vars[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], end, heck_eight, ntino)
+</span></span></code></pre></div><p>For each argument to the <code>print_flag</code> function we can determine its value by interpreting and correcting the rest of the program.</p>
+<p><code>DUCTF{I_D0nT_Th1nk_th15_1s_R34L_C}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

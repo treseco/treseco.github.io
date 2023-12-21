@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>OSINT on CT</title>
-    <link>http://treseco.github.io/tags/osint/</link>
+    <link>https://treseco.github.io/tags/osint/</link>
     <description>Recent content in OSINT on CT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 03 Sep 2023 16:05:08 -0500</lastBuildDate><atom:link href="http://treseco.github.io/tags/osint/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    <lastBuildDate>Sun, 03 Sep 2023 16:05:08 -0500</lastBuildDate><atom:link href="https://treseco.github.io/tags/osint/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
     
     
     <item>
       <title>DUCTF solves</title>
-      <link>http://treseco.github.io/posts/ductf23/other/</link>
+      <link>https://treseco.github.io/posts/ductf23/other/</link>
       <pubDate>Sun, 03 Sep 2023 16:05:08 -0500</pubDate>
       
-      <guid>http://treseco.github.io/posts/ductf23/other/</guid>
+      <guid>https://treseco.github.io/posts/ductf23/other/</guid>
       <description><![CDATA[<h3 id="all-fathers-wisdom">All Fathers Wisdom</h3>
 <ul>
 <li>Author: Pix</li>

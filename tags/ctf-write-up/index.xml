@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>ctf write-up on CT</title>
-    <link>http://treseco.github.io/tags/ctf-write-up/</link>
+    <link>https://treseco.github.io/tags/ctf-write-up/</link>
     <description>Recent content in ctf write-up on CT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 03 Sep 2023 19:01:07 -0500</lastBuildDate><atom:link href="http://treseco.github.io/tags/ctf-write-up/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    <lastBuildDate>Sun, 03 Sep 2023 19:01:07 -0500</lastBuildDate><atom:link href="https://treseco.github.io/tags/ctf-write-up/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
     
     
     <item>
       <title>Masked Squares Flag Checker</title>
-      <link>http://treseco.github.io/posts/ductf23/masked_squares_flag_checker/</link>
+      <link>https://treseco.github.io/posts/ductf23/masked_squares_flag_checker/</link>
       <pubDate>Sun, 03 Sep 2023 19:01:07 -0500</pubDate>
       
-      <guid>http://treseco.github.io/posts/ductf23/masked_squares_flag_checker/</guid>
+      <guid>https://treseco.github.io/posts/ductf23/masked_squares_flag_checker/</guid>
       <description><![CDATA[<h3 id="masked-squares-flag-checker">Masked Squares Flag Checker</h3>
 <ul>
 <li>Author: joseph</li>
@@ -187,10 +187,10 @@ We just need to pass the check in every loop iteration. The output of the functi
     
     <item>
       <title>DUCTF solves</title>
-      <link>http://treseco.github.io/posts/ductf23/other/</link>
+      <link>https://treseco.github.io/posts/ductf23/other/</link>
       <pubDate>Sun, 03 Sep 2023 16:05:08 -0500</pubDate>
       
-      <guid>http://treseco.github.io/posts/ductf23/other/</guid>
+      <guid>https://treseco.github.io/posts/ductf23/other/</guid>
       <description><![CDATA[<h3 id="all-fathers-wisdom">All Fathers Wisdom</h3>
 <ul>
 <li>Author: Pix</li>
@@ -325,10 +325,10 @@ We just need to pass the check in every loop iteration. The output of the functi
     
     <item>
       <title>Either or Neither nor</title>
-      <link>http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</link>
+      <link>https://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</link>
       <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
       
-      <guid>http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</guid>
+      <guid>https://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</guid>
       <description><![CDATA[<h3 id="either-or-neither-nor">Either or Neither nor</h3>
 <ul>
 <li>Category: crypto</li>
@@ -375,10 +375,10 @@ We just need to pass the check in every loop iteration. The output of the functi
     
     <item>
       <title>Jurassic Park</title>
-      <link>http://treseco.github.io/posts/ritsecctf23/jurassic_park/</link>
+      <link>https://treseco.github.io/posts/ritsecctf23/jurassic_park/</link>
       <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
       
-      <guid>http://treseco.github.io/posts/ritsecctf23/jurassic_park/</guid>
+      <guid>https://treseco.github.io/posts/ritsecctf23/jurassic_park/</guid>
       <description><![CDATA[<h3 id="jurassic-park">Jurassic park</h3>
 <ul>
 <li>Category: Rev</li>
@@ -423,10 +423,10 @@ pwndbg&gt;
     
     <item>
       <title>ret2win</title>
-      <link>http://treseco.github.io/posts/ritsecctf23/ret2win/</link>
+      <link>https://treseco.github.io/posts/ritsecctf23/ret2win/</link>
       <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
       
-      <guid>http://treseco.github.io/posts/ritsecctf23/ret2win/</guid>
+      <guid>https://treseco.github.io/posts/ritsecctf23/ret2win/</guid>
       <description><![CDATA[<h3 id="ret2win">ret2win</h3>
 <ul>
 <li>Pwn</li>
@@ -471,10 +471,10 @@ pwndbg&gt;
     
     <item>
       <title>Ducky1</title>
-      <link>http://treseco.github.io/posts/byuctf23/ducky1/</link>
+      <link>https://treseco.github.io/posts/byuctf23/ducky1/</link>
       <pubDate>Mon, 22 May 2023 16:05:08 -0500</pubDate>
       
-      <guid>http://treseco.github.io/posts/byuctf23/ducky1/</guid>
+      <guid>https://treseco.github.io/posts/byuctf23/ducky1/</guid>
       <description><![CDATA[<h3 id="ducky1">Ducky1</h3>
 <ul>
 <li>Category: Rev</li>
@@ -519,10 +519,10 @@ byuctf{this_was_just_an_intro_alright??}[+] Process Complete
     
     <item>
       <title>Ducky2</title>
-      <link>http://treseco.github.io/posts/byuctf23/ducky2/</link>
+      <link>https://treseco.github.io/posts/byuctf23/ducky2/</link>
       <pubDate>Mon, 22 May 2023 16:05:08 -0500</pubDate>
       
-      <guid>http://treseco.github.io/posts/byuctf23/ducky2/</guid>
+      <guid>https://treseco.github.io/posts/byuctf23/ducky2/</guid>
       <description><![CDATA[<p>#writeup</p>
 <h1 id="ducky2">Ducky2</h1>
 <ul>
@@ -586,10 +586,10 @@ byuctf{makesureyourkeyboardissetupright)@&amp;%(#@)!(#*$)}[+] Process Complete
     
     <item>
       <title>Ducky3</title>
-      <link>http://treseco.github.io/posts/byuctf23/ducky3/</link>
+      <link>https://treseco.github.io/posts/byuctf23/ducky3/</link>
       <pubDate>Mon, 22 May 2023 16:05:08 -0500</pubDate>
       
-      <guid>http://treseco.github.io/posts/byuctf23/ducky3/</guid>
+      <guid>https://treseco.github.io/posts/byuctf23/ducky3/</guid>
       <description><![CDATA[<h3 id="ducky3">Ducky3</h3>
 <ul>
 <li>Category: Rev</li>
@@ -668,10 +668,10 @@ STRING
     
     <item>
       <title>Welcome to Hell</title>
-      <link>http://treseco.github.io/posts/umassctf23/welcome_to_hell/</link>
+      <link>https://treseco.github.io/posts/umassctf23/welcome_to_hell/</link>
       <pubDate>Thu, 30 Mar 2023 19:01:07 -0400</pubDate>
       
-      <guid>http://treseco.github.io/posts/umassctf23/welcome_to_hell/</guid>
+      <guid>https://treseco.github.io/posts/umassctf23/welcome_to_hell/</guid>
       <description><![CDATA[<h3 id="welcome-to-hell">Welcome To Hell</h3>
 <ul>
 <li>Author: Battelle</li>

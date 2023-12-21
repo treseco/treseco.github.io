@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+    
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+    <link
+    rel="icon"
+    href='/favicon.png'
+/>
+<link
+    rel="shortcut icon"
+    href='/favicon.ico'
+    type="image/x-icon"
+/>
+<link
+    rel="apple-touch-icon"
+    href='/apple-touch-icon.png'
+/>
+
+    <link
+        rel="icon"
+        href='/logo.svg'
+        type="image/svg+xml"
+    />
+
+<title>
+        
+            Either or Neither nor  &ndash;
+        
+        CT
+    </title>
+
+    
+    <link href="/symbols-nerd-font/symbols-nerd-font.css" rel="stylesheet" integrity="sha512-lydow8GLOLlYNOtHlksNCmGWWCBsbIEtikXpHzfWqx78HLlyQZHOzyLwPpKol4Th6aCwLUXOfODVYgwrd3nwKQ=="/>
+    <link href="/jetbrains-mono/jetbrains-mono.css" rel="stylesheet" integrity="sha512-tJxlgL6v1Y7kFf+qB8SloaAMKnOAw6WouknxXtIjkBux9Y/9aX81EUWOJO8c/3l98DmjG8brr4to7zaez606Fg=="/>
+
+    
+    
+    <link type="text/css" rel="stylesheet" href=http://treseco.github.io/css/styles.ec1acc2d78f3ac49113cb5be53eb69e37f5bd505fc7f5d78095f1252cee8c08bb150bc51c2c16f8a864a3373e4847f354c6cc0e0cbc3b4fb581503b3f75f55e7.css integrity="sha512-7BrMLXjzrEkRPLW&#43;U&#43;tp439b1QX8f114CV8SUs7owIuxULxRwsFvioZKM3PkhH81TGzA4MvDtPtYFQOz919V5w==" />
+<meta name="author" content="" />
+
+    
+        <meta name="keywords" content='cryptography, ctf write-up, Ritsec CTF 2023' />
+    
+    
+        <meta name="description" content="r Category: crypto Points: 100 Files chal.py - Python script, ASCII text executable
+Solve The contents of chal.py tell us that the flag has been xored with a key and we only have the resulting encrypted flag.
+#! /usr/bin/env python flag = &amp;#34;XXXXXXXXXXXXXXXXXXXXX&amp;#34; enc_flag = [91,241,101,166,85,192,87,188,110,164,99,152,98,252,34,152,117,164,99,162,107] key = [0, 0, 0, 0] KEY_LEN = 4 # Encrypt the flag for idx, c in enumerate(flag): enc_flag = ord(c) ^ key[idx % len(key)] The xor operation has properties that make it simple to reverse." />
+    
+
+<meta property="og:site_name"
+    content='CT' />
+
+    <meta property="og:title" content="Either or Neither nor" />
+    <meta property="og:type" content="article" />
+    
+    <meta
+        property="article:author" content="" />
+    <meta
+        property="article:published_time"
+        content='2023-05-23T19:01:07Z-0400' />
+    
+        
+            <meta property="article:tag" content="cryptography" />
+        
+            <meta property="article:tag" content="ctf write-up" />
+        
+            <meta property="article:tag" content="Ritsec CTF 2023" />
+        
+    
+    <meta property="og:url" content="http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/" />
+    
+    
+    <meta property="og:image"
+        content="http://treseco.github.io/icon512.png" />
+    
+        <meta property="og:description" content="Either or Neither nor Category: crypto Points: 100 Files chal.py - Python script, ASCII text executable
+Solve The contents of chal.py tell us that the flag has " />
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:domain"
+      content='reseco.github.io'
+/>
+<meta property="twitter:url" content="http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/" />
+
+
+    <meta name="twitter:title" content="Either or Neither nor" />
+    
+    
+    
+    <meta name="twitter:image"
+        content="http://treseco.github.io/icon512.png" />
+    
+        <meta name="twitter:description" content="Either or Neither nor Category: crypto Points: 100 Files chal.py - Python script, ASCII text executable
+Solve The contents of chal.py tell us that the flag has " />
+    
+
+<link rel="manifest" href="/manifest/index.json" />
+</head>
+
+
+<body>
+        <div id="baseContainer"><header class="">
+<div class="titleAndSearchContainer">
+        <div id="titleContainer">
+            
+                <a class="unstyledLink" href="/">
+                    <img src='/logo.svg' alt='Logo'/>
+                </a>
+            
+            <div class="rightOfLogo">
+                <div class="titleAndHamburger">
+                    <h1>
+                        <a class="unstyledLink" href="/">CT</a>
+                        
+                    </h1>
+                    
+                        <label id="hamburger-menu" for="main-nav-toggler">
+                            &#xf85b;
+                        </label>
+                    
+                </div>
+                <div id="wide_nav"><nav>
+    
+        <input type="checkbox" id="main-nav-toggler" />
+    
+    <ul id="main-nav">
+        <li><a href="/">Home</a></li>
+        
+            <li><a href="/posts/">Posts</a></li>
+        
+        
+        
+        
+        
+            <li><a href="http://treseco.github.io/pages/about/">
+                About
+            </a></li>
+        
+        
+        
+            <li><a href="/tags/">Tags</a></li>
+        
+        
+    </ul>
+</nav>
+</div>
+            </div>
+        </div>
+        <div class="search">
+    <input id="searchbar" type="text" placeholder='Search' />
+    <span class="nerdlink" onclick="newSearch();">&#xf002;</span>
+</div>
+<script>
+    function newSearch() {
+        let term = searchbar.value.trim();
+        if (!term) return;
+        location.href = `/search/?q=${term}`;
+    }
+    searchbar.onkeyup = (ev) => {if (ev.keyCode == 13) newSearch()};
+</script>
+
+    </div>
+    <div id="links">
+        
+        
+        <a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://github.com/treseco">
+    
+    
+        &#xf09b;
+    
+    <span>
+        Github
+    </span>
+</a>
+
+    </div>
+    
+
+</header>
+<div id="contentContainer">
+                <div id="content">
+                    <main>
+<article class="card single">
+    
+        <h1>Either or Neither nor</h1>
+    
+    
+        <p class="date">
+            <span title='Date'> </span>
+    2023-05-23
+
+</p>
+    
+    
+    
+    
+    <div><h3 id="either-or-neither-nor">Either or Neither nor</h3>
+<ul>
+<li>Category: crypto</li>
+<li>Points: 100</li>
+</ul>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>chal.py</code> - Python script, ASCII text executable</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>The contents of chal.py tell us that the flag has been xored with a key and we only have the resulting encrypted flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#! /usr/bin/env python </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;XXXXXXXXXXXXXXXXXXXXX&#34;</span> 
+</span></span><span style="display:flex;"><span>enc_flag <span style="color:#f92672">=</span> [<span style="color:#ae81ff">91</span>,<span style="color:#ae81ff">241</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">166</span>,<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">192</span>,<span style="color:#ae81ff">87</span>,<span style="color:#ae81ff">188</span>,<span style="color:#ae81ff">110</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">98</span>,<span style="color:#ae81ff">252</span>,<span style="color:#ae81ff">34</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">117</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">162</span>,<span style="color:#ae81ff">107</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>KEY_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Encrypt the flag </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, c <span style="color:#f92672">in</span> enumerate(flag): 
+</span></span><span style="display:flex;"><span>	enc_flag <span style="color:#f92672">=</span> ord(c) <span style="color:#f92672">^</span> key[idx <span style="color:#f92672">%</span> len(key)]
+</span></span></code></pre></div><p>The xor operation has properties that make it simple to reverse. If <code>a ^ b = c</code> then <code>c ^ b = a</code>. Because we have the encrypted flag, and the encrypted bytes are equal to <code>f ^ k</code> where <code>f</code> and <code>k</code> are the flag bytes and the key bytes respectively, we can figure out bytes of the flag from bytes of the key and vice versa. Because we know the flag format is &lsquo;MetaCTF{}&rsquo;, we can find the key by individually xoring the first four bytes of the encrypted flag with the known first four bytes of the flag &lsquo;Meta&rsquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># encrypted flag</span>
+</span></span><span style="display:flex;"><span>enc_flag <span style="color:#f92672">=</span> [<span style="color:#ae81ff">91</span>,<span style="color:#ae81ff">241</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">166</span>,<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">192</span>,<span style="color:#ae81ff">87</span>,<span style="color:#ae81ff">188</span>,<span style="color:#ae81ff">110</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">98</span>,<span style="color:#ae81ff">252</span>,<span style="color:#ae81ff">34</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">117</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">162</span>,<span style="color:#ae81ff">107</span>]
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>] 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># calculate key from enc_flag and known start of flag</span>
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;M&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;e&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;t&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;a&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># print decrypted flag</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, c <span style="color:#f92672">in</span> enumerate(enc_flag):
+</span></span><span style="display:flex;"><span>    print(chr(c <span style="color:#f92672">^</span> key[idx <span style="color:#f92672">%</span> len(key)]), end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><p>Flag: <code>MetaCTF{x0r_th3_c0re}</code></p>
+</div>
+</article>
+
+    <hr />
+    <p class="articleTagsContainer">
+        <span> </span>
+        <strong>Tags:</strong>
+        
+            <a
+                
+                href="/tags/cryptography/">#cryptography</a>
+        
+            <a
+                
+                href="/tags/ctf-write-up/">#ctf write-up</a>
+        
+            <a
+                
+                href="/tags/ritsec-ctf-2023/">#Ritsec CTF 2023</a>
+        
+    </p>
+
+
+
+
+
+
+                    </main><footer>
+    <hr />
+
+<p><small>
+        2023 &copy; 
+    </small></p>
+    <p><small>
+        <a href='https://gitlab.com/gabmus/hugo-ficurinia'>Ficurinia theme</a> for <a href='https://gohugo.io'>Hugo</a> by <a href='https://gabmus.org'>Gabriele Musco</a>. Licensed under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>GNU AGPLv3</a>.
+    </small></p>
+</footer>
+</div>
+            </div>
+        </div>
+
+
+</body>
+</html>

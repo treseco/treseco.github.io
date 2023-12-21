@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>Pages on CT</title>
+    <link>http://treseco.github.io/pages/</link>
+    <description>Recent content in Pages on CT</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 20 Dec 2023 14:24:38 -0500</lastBuildDate><atom:link href="http://treseco.github.io/pages/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>About</title>
+      <link>http://treseco.github.io/pages/about/</link>
+      <pubDate>Wed, 20 Dec 2023 14:24:38 -0500</pubDate>
+      
+      <guid>http://treseco.github.io/pages/about/</guid>
+      <description><![CDATA[<h3 id="about-me">About Me</h3>
+<p>I am currently an undergraduate student at <a href="https://umich.edu">The University of Michigan</a> studying computer science. I also compete in Capture the Flag cybersecurity competitions with <a href="https://wolvsec.org">Wolvsec</a>.</p>
+<h3 id="about-this-site">About This Site</h3>
+<p>This site is intented to be a place to share write-ups for CTF challenge solutions as well as updates for my personal projects.</p>
+<p>This site is built with static site generator <a href="https://gohugo.io">hugo</a> and uses a modified version of <a href="https://themes.gohugo.io/themes/hugo-ficurinia">hugo-ficurinia</a> as a theme. It is hosted with <a href="https://pages.github.com">github pages</a>.</p>
+]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

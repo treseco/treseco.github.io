@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "CT",
+  "short_name": "CT",
+  "start_url": "/",
+  "display": "standalone",
+  
+  
+  
+  "background_color": "#242629",
+  "theme_color": "#9c4039"
+  
+    ,
+    "description": "CT blog"
+  
+  
+    ,
+    "icons": [
+      {
+        "src": "/icon512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/icon512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      }
+    ]
+  
+}
+

@@ -1,0 +1,38 @@
+
+{
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    "articles": [{"date":"2023-05-22","image":"","imageAlt":"","link":"http://treseco.github.io/posts/byuctf23/ducky1/","summary":"Ducky1 Category: Rev Difficulty: Easy Points: 100 Solves: 185 Description I recently got ahold of a Rubber Ducky, and have started automating ALL of my work tasks with it! You should check it out!\nFiles inject.bin - data\nSolve The contents of inject.bin dosn\u0026rsquo;t give us much information.\n$ xxd inject.bin 00000000: 00ff 00ff 00ff 00ff 00ff 00ff 00ff 00ff ................ ... 00000350: 00ff 00ff 00ff 00ff 00ff 00ff 00ff 005f .","tags":["BYUCTF 2023","ctf write-up","reversing"],"title":"Ducky1"},{"date":"2023-05-22","image":"","imageAlt":"","link":"http://treseco.github.io/posts/byuctf23/ducky2/","summary":"#writeup\nDucky2 Category: Rev Difficulty: Medium Points: 476 Solves: 36 Description Okay, turnsk out that wask too easy to decode. You skhoud definitely try thisk one now! (Note - Ducky3 is unlocked after solving this challenge)\nFiles inject.bin - data\nSolve We are given a very similar file to inject.bin from ducky1. Let\u0026rsquo;s try to decode this one with DuckToolkit as well.\n$ python3 ducktools.py -d -l us ../inject.bin /dev/stdout [+] Reading Duck Bin file [-] Decoding file [-] Writing ducky text to /dev/stdout DELAY bzuctfmakesurezourkezboardissetupright|_}|\u0026#34;}|[+] Process Complete Ok, that didn\u0026rsquo;t seem to work but it does give us a hint by telling us to \u0026lsquo;make sure your keyboard is set up right\u0026rsquo;.","tags":["BYUCTF 2023","ctf write-up","reversing"],"title":"Ducky2"},{"date":"2023-05-22","image":"","imageAlt":"","link":"http://treseco.github.io/posts/byuctf23/ducky3/","summary":"Ducky3 Category: Rev Difficulty: Medium Points: 497 Solves: 14 Description Alright fine, I\u0026rsquo;ll make my own keyboard layout\u0026hellip;\nFiles inject.bin - data payload.txt - ASCII text\nSolve This challenge only provided another inject.bin file initially. As the description says, this file dosn\u0026rsquo;t seem to match any language, and appears to be custom made. The challenge was later fixed to include payload.txt.\nSTRING abcdefghijklmnopqrstuvwxyz STRING ABCDEFGHIJKLMNOPQRSTUVWXYZ STRING 0123456789 STRING !@#$%^\u0026amp;*()-_ STRING payload.","tags":["BYUCTF 2023","ctf write-up","reversing"],"title":"Ducky3"},{"date":"2023-03-30","image":"","imageAlt":"","link":"http://treseco.github.io/posts/umassctf23/welcome_to_hell/","summary":"Welcome To Hell Author: Battelle Rev 400 pts Description Welcome to hell, where all it seems that you can do is try to exit, maybe there is a flag hidden somewhere in this mess\nFiles welcome_to_hell - ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped\nReversing Opening welcome_to_hell in Ghidra shows a few functions. The only one that appears to do anything useful is entry, the first function in the binary.","tags":["ctf write-up","reversing","UMass CTF 2023"],"title":"Welcome to Hell"},{"date":"0001-01-01","image":"","imageAlt":"","link":"http://treseco.github.io/manifest/index.json","summary":"","tags":[],"title":"Manifest"}],
+    "test": "Masked Squares Flag Checker   DUCTF solves   Either or Neither nor   Jurassic Park   ret2win   Ducky1   Ducky2   Ducky3   Welcome to Hell   Manifest   Search   ",
+    "page": "2",
+    "next": 
+        "http://treseco.github.io/page/3/index.json"
+    
+}
+

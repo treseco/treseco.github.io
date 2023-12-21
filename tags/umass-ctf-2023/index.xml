@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>UMass CTF 2023 on CT</title>
-    <link>http://treseco.github.io/tags/umass-ctf-2023/</link>
+    <link>https://treseco.github.io/tags/umass-ctf-2023/</link>
     <description>Recent content in UMass CTF 2023 on CT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 30 Mar 2023 19:01:07 -0400</lastBuildDate><atom:link href="http://treseco.github.io/tags/umass-ctf-2023/index.xml" rel="self" type="application/rss+xml" /><icon>http://treseco.github.io/logo.svg</icon>
+    <lastBuildDate>Thu, 30 Mar 2023 19:01:07 -0400</lastBuildDate><atom:link href="https://treseco.github.io/tags/umass-ctf-2023/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
     
     
     <item>
       <title>Welcome to Hell</title>
-      <link>http://treseco.github.io/posts/umassctf23/welcome_to_hell/</link>
+      <link>https://treseco.github.io/posts/umassctf23/welcome_to_hell/</link>
       <pubDate>Thu, 30 Mar 2023 19:01:07 -0400</pubDate>
       
-      <guid>http://treseco.github.io/posts/umassctf23/welcome_to_hell/</guid>
+      <guid>https://treseco.github.io/posts/umassctf23/welcome_to_hell/</guid>
       <description><![CDATA[<h3 id="welcome-to-hell">Welcome To Hell</h3>
 <ul>
 <li>Author: Battelle</li>

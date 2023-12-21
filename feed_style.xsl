@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
         <meta charset="UTF-8"/>
         
-        <link type="text/css" rel="stylesheet" href="http://treseco.github.io/css/styles.ec1acc2d78f3ac49113cb5be53eb69e37f5bd505fc7f5d78095f1252cee8c08bb150bc51c2c16f8a864a3373e4847f354c6cc0e0cbc3b4fb581503b3f75f55e7.css" integrity="sha512-7BrMLXjzrEkRPLW+U+tp439b1QX8f114CV8SUs7owIuxULxRwsFvioZKM3PkhH81TGzA4MvDtPtYFQOz919V5w==" />
+        <link type="text/css" rel="stylesheet" href="https://treseco.github.io/css/styles.ec1acc2d78f3ac49113cb5be53eb69e37f5bd505fc7f5d78095f1252cee8c08bb150bc51c2c16f8a864a3373e4847f354c6cc0e0cbc3b4fb581503b3f75f55e7.css" integrity="sha512-7BrMLXjzrEkRPLW+U+tp439b1QX8f114CV8SUs7owIuxULxRwsFvioZKM3PkhH81TGzA4MvDtPtYFQOz919V5w==" />
         <style>
           .aboutfeeds {
             margin: 24px 0; padding: 12px;

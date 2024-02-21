@@ -80,38 +80,28 @@ With the resulting strings that correctly produce the sum of 260, we can compute
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># return all flag strings flag[idx:] with c at idx that result in all 10s</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">find_tens</span>(idx, c) :
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">26</span>):
+</span></span><span style="display:flex;"><span>    tens <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    last_ten <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">26</span>) : 
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [<span style="color:#e6db74">&#39;&#39;</span>]
-</span></span><span style="display:flex;"><span>    good <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    last <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># assuming char c at flag[idx], find all indexes that produce a 10</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(e[idx][alpha<span style="color:#f92672">.</span>index(c)][last<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>:]<span style="color:#f92672">.</span>count(<span style="color:#ae81ff">10</span>)) :
-</span></span><span style="display:flex;"><span>        found_ten <span style="color:#f92672">=</span> e[idx][alpha<span style="color:#f92672">.</span>index(c)]<span style="color:#f92672">.</span>index(<span style="color:#ae81ff">10</span>, last<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>        good<span style="color:#f92672">.</span>append(found_ten)
-</span></span><span style="display:flex;"><span>        last <span style="color:#f92672">=</span> found_ten
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> good:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [<span style="color:#e6db74">&#39;&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(e[idx][alpha<span style="color:#f92672">.</span>index(c)][last_ten<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>:]<span style="color:#f92672">.</span>count(<span style="color:#ae81ff">10</span>)) :
+</span></span><span style="display:flex;"><span>        found_ten <span style="color:#f92672">=</span> e[idx][alpha<span style="color:#f92672">.</span>index(c)]<span style="color:#f92672">.</span>index(<span style="color:#ae81ff">10</span>, last_ten<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        tens<span style="color:#f92672">.</span>append(found_ten)
+</span></span><span style="display:flex;"><span>        last_ten <span style="color:#f92672">=</span> found_ten
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tens:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> []
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> :
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># return all possible subsequent strings using recursion</span>
 </span></span><span style="display:flex;"><span>        ret <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># for all good indexes, get the letter producing said index</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># and recursivly call find_tens</span>
-</span></span><span style="display:flex;"><span>        rec <span style="color:#f92672">=</span> [find_tens(idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, alpha[g]) <span style="color:#66d9ef">for</span> g <span style="color:#f92672">in</span> good]
+</span></span><span style="display:flex;"><span>        rec <span style="color:#f92672">=</span> [find_tens(idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, alpha[g]) <span style="color:#66d9ef">for</span> g <span style="color:#f92672">in</span> tens]
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> rec :
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> x :
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># concat all valid recursive sequences with c</span>
 </span></span><span style="display:flex;"><span>                ret<span style="color:#f92672">.</span>append(c<span style="color:#f92672">+</span>y)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ret
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># helper for enumerating the missing char</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inc_miss</span>(missing) :
-</span></span><span style="display:flex;"><span>    inc_idx <span style="color:#f92672">=</span> alpha<span style="color:#f92672">.</span>index(missing)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> inc_idx <span style="color:#f92672">is</span> len(alpha) :
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;a&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> :
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> alpha[inc_idx]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># do js program check, return d</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check_js</span>(flag, missing) :
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># do js program check</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check_js</span>(flag) :
 </span></span><span style="display:flex;"><span>    d <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> flag :
 </span></span><span style="display:flex;"><span>        d <span style="color:#f92672">=</span> (d <span style="color:#f92672">*</span> <span style="color:#ae81ff">31</span> <span style="color:#f92672">+</span> ord(c)) <span style="color:#f92672">%</span> <span style="color:#ae81ff">93097</span>
@@ -119,20 +109,13 @@ With the resulting strings that correctly produce the sum of 260, we can compute
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, c <span style="color:#f92672">in</span> enumerate(alpha) :
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># find all strings that produce 10s, try starting will all chars in alpha</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> find_tens(<span style="color:#ae81ff">0</span>, c):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> find_tens(<span style="color:#ae81ff">0</span>, c) :
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(s) <span style="color:#f92672">==</span> <span style="color:#ae81ff">26</span> :
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># build a flag with each 10s string + flag format + last missing char</span>
-</span></span><span style="display:flex;"><span>            missing <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;a&#39;</span>
-</span></span><span style="display:flex;"><span>            flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lactf{&#34;</span> <span style="color:#f92672">+</span> s <span style="color:#f92672">+</span> missing <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;}&#39;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># check the potential flag with all alphabet chars as the missing char</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span>(<span style="color:#66d9ef">True</span>) :
-</span></span><span style="display:flex;"><span>                score <span style="color:#f92672">=</span> check_js(flag, missing)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> missing <span style="color:#f92672">in</span> alpha:
+</span></span><span style="display:flex;"><span>                flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lactf{&#34;</span> <span style="color:#f92672">+</span> s <span style="color:#f92672">+</span> missing <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;}&#39;</span>
+</span></span><span style="display:flex;"><span>                score <span style="color:#f92672">=</span> check_js(flag)
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (score <span style="color:#f92672">==</span> <span style="color:#ae81ff">61343</span>) :
 </span></span><span style="display:flex;"><span>                    print(flag)
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(missing <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;_&#39;</span>) :
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
-</span></span><span style="display:flex;"><span>                missing <span style="color:#f92672">=</span> inc_miss(missing)
-</span></span><span style="display:flex;"><span>                flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lactf{&#34;</span> <span style="color:#f92672">+</span> s <span style="color:#f92672">+</span> missing <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;}&#39;</span>
 </span></span></code></pre></div><p>The solve script will take a second to run, and will return a few possible flags but only one isn&rsquo;t completly random.</p>
 <p><code>lactf{solve_one_get_two_free_deal}</code></p>
 <h2 id="the-secret-of-java-island">the-secret-of-java-island</h2>

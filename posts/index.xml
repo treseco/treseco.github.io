@@ -5,7 +5,304 @@
     <description>Recent content in Posts on CT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Feb 2024 19:26:46 -0500</lastBuildDate><atom:link href="https://treseco.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
+    <lastBuildDate>Fri, 08 Mar 2024 15:31:05 -0500</lastBuildDate><atom:link href="https://treseco.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
+    
+    
+    <item>
+      <title>GCCCTF 2024 Writeups</title>
+      <link>https://treseco.github.io/posts/gccctf24/gccctf24/</link>
+      <pubDate>Fri, 08 Mar 2024 15:31:05 -0500</pubDate>
+      
+      <guid>https://treseco.github.io/posts/gccctf24/gccctf24/</guid>
+      <description><![CDATA[<h1 id="gccctf-2024">GCCCTF 2024</h1>
+<p>I competed in GCCCTF last weekend. I played as an individual this week as many of us at Wolvsec have been busy preparing for our own upcoming CTF, <a href="https://wolvctf.io">WolvCTF 2024</a>. I was able to solve a couple of the reversing challengs, <em>warp-jump</em> and <em>rAnSoM</em>, and placed 110th overall. The official challenge sources and writeups can be found <a href="https://github.com/GCC-ENSIBS/GCC-CTF-2024/tree/main">here</a></p>
+<h2 id="warp-jump">warp-jump</h2>
+<ul>
+<li>Category: Rev</li>
+<li>Author: NineLine</li>
+<li>Points: 453</li>
+<li>Solves: 20</li>
+</ul>
+<hr>
+<h5 id="description">Description</h5>
+<blockquote>
+<p>A friend of yours simulated a Warp drive allowing faster-than-light travel, but the process if difficult and unpredictable.
+To navigate you will have to overcome the limitation of warp travel and make best use of calculated jumps.
+Do you have what it takes to navigate this treacherous path ?</p>
+</blockquote>
+<hr>
+<h6 id="files">Files</h6>
+<p><code>warp-jump</code>: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=22468621a408d2ec279c3271bb62bbd87d552150, for GNU/Linux 3.2.0, stripped</p>
+<hr>
+<h5 id="solve">Solve</h5>
+<p>Quickly analyzing the binary will show us the <code>main</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>undefined4 <span style="color:#a6e22e">main</span>(undefined4 param_1, undefined8 param_2)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int64_t</span> iVar1;
+</span></span><span style="display:flex;"><span>    undefined input [<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>    undefined8 uStack_18;
+</span></span><span style="display:flex;"><span>    undefined4 uStack_10;
+</span></span><span style="display:flex;"><span>    undefined4 uStack_c;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    uStack_c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    uStack_18 <span style="color:#f92672">=</span> param_2;
+</span></span><span style="display:flex;"><span>    uStack_10 <span style="color:#f92672">=</span> param_1;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;You will never be able to win! ( •̀ᴗ•́ )و ̑̑</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Enter a value : &#34;</span>);
+</span></span><span style="display:flex;"><span>    iVar1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">fgets</span>(input, <span style="color:#ae81ff">0x14</span>, <span style="color:#f92672">*</span>_reloc.stdin);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (iVar1 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Error reading input.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        uStack_c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>(undefined4 <span style="color:#f92672">*</span>)<span style="color:#ae81ff">0x404038</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">strtoul</span>(input, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0x10</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>(<span style="color:#66d9ef">int64_t</span> <span style="color:#f92672">*</span>)<span style="color:#ae81ff">0x404030</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x1337</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;WoW you won!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">You can enter the flag as GCC{your_input}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        uStack_c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> uStack_c;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It&rsquo;s clear that our input is read as an unsigned long, and it also seems (for now) that we need to set the value at <code>0x404030</code> to be <code>0x1337</code> somehow. The only problem is that there are no other function calls here that would give us a lead. There also is no way to modify the value at <code>0x404030</code>. Further analysis is needed.</p>
+<pre tabindex="0"><code>  ;-- entry.fini1:
+  0x00401170      push  rbp
+  0x00401171      mov   rbp, rsp
+  0x00401174      mov   rax, qword [0x00404030]              ; [0x404030:8]=0
+  0x0040117b      jmp   rax
+  0x0040117d      pop   rbp
+  0x0040117e      ret
+  0x0040117f      nop
+  ;-- entry.fini2:
+  0x00401180      push  rbp
+  0x00401181      mov   rbp, rsp
+  0x00401184      mov   eax, dword [input]              ; [0x404038:4]=0
+  0x0040118a      shr   eax, 0x1f
+  0x0040118d      and   eax, 1
+  0x00401190      cmp   eax, 0
+  0x00401193      je    0x4011ad
+  0x00401199      mov   rax, qword [0x00404030]              ; [0x404030:8]=0
+  0x004011a0      xor   rax, 0xe910e5
+  0x004011a6      mov   qword [0x00404030], rax              ; [0x404030:8]=0
+  0x004011ad      pop   rbp
+  0x004011ae      ret
+  ...
+</code></pre><p>Our analysis shows a bunch of these <code>fini</code> functions, but what are they and why are they not called at all from <code>main</code>? It turns out that these are used by LIBC to provide support for constructors and destructors that need to run before or after main, as described <a href="https://gcc.gnu.org/onlinedocs/gccint/Initialization.html">here</a>. These functions are specifically the destructors, so they will run after our input is set in the program. Placing a breakpoint on any of these destructors and viewing the backtrace will show that they are called by another LIBC function called <code>_dl_call_fini</code>, and we can see the <a href="https://codebrowser.dev/glibc/glibc/elf/dl-call_fini.c.html">source</a>. There are 34 <code>fini</code> functions in the binary, 0 to 33, and <code>_dl_call_fini</code> will call each one after main finishes in reverse order, ie, starting with <code>fini33</code>. Interestingly, <code>fini1</code> jumps to the value stored at <code>0x404030</code>, the same address used in the comparison right before the win message. <code>fini2</code> through <code>fini33</code> all have the same form as <code>fini2</code> except with a different operation and operands done on the value at <code>0x404030</code>. These operations are only done if the corresponding bit is set in the input.</p>
+<p>This is the point where I started to overcomplicate things for myself. I was distracted by the check right before the win message and became convinced that there was some input that would set <code>0x404030</code> so that <code>fini1</code> would jump somewhere that sets the value back to <code>0x1337</code> and somehow gets back to the check in main. After checking every ROP gadget in the whole binary I finally realized this approach wouldn&rsquo;t work. I then started trying to find any address in the text segment that I could get using the fini operations.</p>
+<p>I encountered the second self imposed roadblock at this point, as I attempted to write a quick python script to enumerate all 2^32 possible inputs and compute the jump destination. After calculating how long the entire script would take to finish (too long) I decided to change approach again. Consider the following inputs and address calculations:</p>
+<pre tabindex="0"><code>input            jump dest calculation
+0x6  =  0b0110 =        fini31(fini32(0))
+0xa  =  0b1010 =        fini30(fini32(0))
+0x1a = 0b11010 = fini29(fini30(fini32(0)))
+</code></pre><p>Here you can see how any values that share the last <code>n</code> bits will also share the output from the first <code>n</code> operations. Using this knowledge we can create a solution using a dynamic programming approach to store values and avoid recomputing overlapping computations. There is a different issue with this, as storing all the reusable values will result in a memo that needs to be big enough for 2^31 values, way too much memory. This was not considered at the time. The script was run and it ate up all the free swap space. I then concluded that python&rsquo;s list datatype was the problem so I rewrote the solve script in c. This actually worked, but only because of a bug that restricted the input search space to just 2^28 possible inputs. This was enough, however, to find the input <code>442a14b</code> which will jump to address <code>0x401858</code>, one byte into the instruction to load the win message.</p>
+<pre tabindex="0"><code>  0x0040183b      call  sym.imp.strtoul
+  0x00401840      mov   dword [0x00404038], eax
+  0x00401846      cmp   qword [0x00404030], 0x1337
+  0x00401851      jne   0x401865
+  0x00401857      lea   rdi, str.WoW_you_won__You_can_enter_the_flag_as_GCC_your_input ; 0x402064 ; &#34;WoW you won!\nYou can enter the flag as GCC{your_input}\n&#34;
+  0x0040185e      mov   al, 0
+  0x00401860      call  sym.imp.printf
+</code></pre><p>Because I was still searching for any addresses in the text section, the script returned addresses like this that don&rsquo;t fully allign with the instructions. The effect of jumping into the middle of the instruction here is that <code>lea  rdi</code> becomes <code>lea  edi</code>, and since the address of the string will fit in a 32 bit register, the win message still gets printed.</p>
+<pre tabindex="0"><code>$ ./warp_jump 
+You will never be able to win! ( •̀ᴗ•́ )و ̑̑
+Enter a value : 442a14b
+WoW you won!
+You can enter the flag as GCC{your_input}
+Segmentation fault
+</code></pre><p>This flag was not accepted at first during the competition, but after messaging the author I was awarded with a solve. Turns our that jumping a byte into the <code>lea</code> instruction was an unintended solution. Ive gone back and revised my solve script to find all the possible solutions. The memory problem was not solved by using c instead of python though. I reduced the memo size by storing the values for a majority of the subproblems and recomputing the rest.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini02</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0xe910e5</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini03</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0x16ef1a</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini04</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x8f13412</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini05</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">/</span> <span style="color:#ae81ff">0xa</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini06</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0xf9214bc</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini07</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini08</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">-</span> <span style="color:#ae81ff">0xf1349</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini09</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0x10237b</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini10</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x58af</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini11</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">/</span> <span style="color:#ae81ff">0xa</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini12</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0xba23</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini13</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini14</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">-</span> <span style="color:#ae81ff">0xab351</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini15</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x70</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini16</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">3</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini17</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0xb3417e</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini18</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">/</span> <span style="color:#ae81ff">7</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini19</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini20</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x31f2cb2</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini21</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0xf56189c</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini22</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0xb00b5</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini23</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">/</span> <span style="color:#ae81ff">5</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini24</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0x8fa24f</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini25</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x134fac2</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini26</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">^</span> <span style="color:#ae81ff">0xfad1131</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini27</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini28</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">*</span> <span style="color:#ae81ff">0x12</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini29</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0xb1c0c2</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini30</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini31</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">*</span> <span style="color:#ae81ff">0xf14</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini32</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1337</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fini33</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) { <span style="color:#66d9ef">return</span> addr <span style="color:#f92672">+</span> <span style="color:#ae81ff">0xada31</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#a6e22e">long</span> (<span style="color:#f92672">*</span>fini_array[<span style="color:#ae81ff">32</span>]) (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> addr) <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  fini02, fini03, fini04, fini05, fini06, fini07, fini08, fini09, 
+</span></span><span style="display:flex;"><span>  fini10, fini11, fini12, fini13, fini14, fini15, fini16, fini17, 
+</span></span><span style="display:flex;"><span>  fini18, fini19, fini20, fini21, fini22, fini23, fini24, fini25, 
+</span></span><span style="display:flex;"><span>  fini26, fini27, fini28, fini29, fini30, fini31, fini32, fini33
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> memo[<span style="color:#ae81ff">0x0fffffff</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  memo[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0x0fffffff</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> val;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> sub;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> (<span style="color:#f92672">*</span>f) (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> first_set_bit <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> secnd_set_bit;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// search for highest set bit
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span>( <span style="color:#f92672">!</span>((i <span style="color:#f92672">&gt;&gt;</span> (<span style="color:#ae81ff">31</span> <span style="color:#f92672">-</span> first_set_bit)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ) { 
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(<span style="color:#f92672">++</span>first_set_bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">32</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(first_set_bit <span style="color:#f92672">!=</span> <span style="color:#ae81ff">32</span>) {
+</span></span><span style="display:flex;"><span>      secnd_set_bit <span style="color:#f92672">=</span> first_set_bit <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(secnd_set_bit <span style="color:#f92672">!=</span> <span style="color:#ae81ff">32</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>( <span style="color:#f92672">!</span>((i <span style="color:#f92672">&gt;&gt;</span> (<span style="color:#ae81ff">31</span> <span style="color:#f92672">-</span> secnd_set_bit)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ) { 
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span>(<span style="color:#f92672">++</span>secnd_set_bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">32</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(secnd_set_bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">32</span>) {
+</span></span><span style="display:flex;"><span>        sub <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        sub <span style="color:#f92672">=</span> ((i <span style="color:#f92672">&lt;&lt;</span> (secnd_set_bit<span style="color:#f92672">+</span><span style="color:#ae81ff">32</span>)) <span style="color:#f92672">&gt;&gt;</span> (secnd_set_bit<span style="color:#f92672">+</span><span style="color:#ae81ff">32</span>));
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      val <span style="color:#f92672">=</span> memo[sub];
+</span></span><span style="display:flex;"><span>      f <span style="color:#f92672">=</span> fini_array[first_set_bit];
+</span></span><span style="display:flex;"><span>      val <span style="color:#f92672">=</span> <span style="color:#a6e22e">f</span>(val);
+</span></span><span style="display:flex;"><span>      memo[i] <span style="color:#f92672">=</span> val;
+</span></span><span style="display:flex;"><span>      f <span style="color:#f92672">=</span> fini_array[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(val <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0x401856</span> <span style="color:#f92672">&amp;&amp;</span> val <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0x401858</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(val <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x401858</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Unintended: &#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%x : GCC{%x}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, val, i);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x10000000</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0xffffffff</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> (<span style="color:#f92672">*</span>f) (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> val;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> base <span style="color:#f92672">=</span> i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x0fffffff</span>;
+</span></span><span style="display:flex;"><span>    val <span style="color:#f92672">=</span> memo[base];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> remaining <span style="color:#f92672">=</span> i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">28</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>( <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">int</span> current_bit <span style="color:#f92672">=</span> (remaining <span style="color:#f92672">&gt;&gt;</span> j) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (current_bit) {
+</span></span><span style="display:flex;"><span>        val <span style="color:#f92672">=</span> fini_array[<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span>j](val);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(val <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0x401856</span> <span style="color:#f92672">&amp;&amp;</span> val <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0x401858</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(val <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x401858</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Unintended: &#34;</span>);
+</span></span><span style="display:flex;"><span>      } 
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%x : GCC{%x}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, val, i);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><pre tabindex="0"><code>$ ./a.out
+Unintended: 401858 : GCC{442a14b}
+Unintended: 401858 : GCC{10609c72}
+401857 : GCC{14ae0f9b}
+401857 : GCC{15619c2a}
+Unintended: 401858 : GCC{1a093bd3}
+401857 : GCC{5a0817ea}
+401857 : GCC{95571cb1}
+Unintended: 401858 : GCC{a36fe3c9}
+Unintended: 401858 : GCC{ab320232}
+401857 : GCC{ae4460ba}
+401857 : GCC{c740961b}
+Unintended: 401858 : GCC{d5599811}
+Unintended: 401858 : GCC{d6461959}
+Unintended: 401858 : GCC{d7ff33a6}
+Unintended: 401858 : GCC{df56922e}
+</code></pre><p>I&rsquo;d like to note here that this approach is not required to solve this challenge, I&rsquo;ve seen some other writeups that were able to use python with a SAT solver like z3 to reduce the amount of brute-forcing needed. There is also <a href="https://github.com/acdwas/ctf/tree/master/2024/GCC%20CTF%202024/rev/Warp_jump">this</a> much simpler solution in c from <strong>acdwas</strong> on github. They use inlined assembly compute all the values, likley the best solution that dosen&rsquo;t store the reusable values. The speed increase from the DP approach is apparent when comparing the amount of time needed to find the first intended solution:</p>
+<pre tabindex="0"><code>$ time ./dp-solve
+Unintended: 401858 : GCC{442a14b}
+Unintended: 401858 : GCC{10609c72}
+401857 : GCC{14ae0f9b}
+
+real	0m13.111s
+user	0m12.467s
+sys	0m0.611s
+$ time ./acdwas-solve
+GCC{14ae0f9b}
+
+real	0m36.459s
+user	0m36.419s
+sys	0m0.004s
+</code></pre><h2 id="ransom">rAnSoM</h2>
+<ul>
+<li>Category: Rev</li>
+<li>Author: <a href="https://xanhacks.xyz">xanhacks</a></li>
+<li>Points: 100</li>
+<li>Solves: 88</li>
+</ul>
+<hr>
+<h5 id="description-1">Description</h5>
+<blockquote>
+<p>Jessie recently acquired new computers and set them up with Debian, ensuring to incorporate the most current security enhancements. Nevertheless, two weeks following this setup, she discovers that her secrets file has been encrypted.
+Find the content of the secrets file!</p>
+</blockquote>
+<hr>
+<h6 id="files-1">Files</h6>
+<p><code>ransom</code>: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, not stripped
+<code>secrets.txt.enc</code>: data</p>
+<hr>
+<h5 id="solve-1">Solve</h5>
+<p>Initial analysis of the provided ELF file shows that the program reads the data from <code>secrets.txt</code>, xors the contents with a 6-byte key, and writes the output to <code>secrets.txt.enc</code>. Rather than find the key from the binary we can use a clever trick to find the key from the encrypted data using the known flag input.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># data from `secrets.txt.enc`</span>
+</span></span><span style="display:flex;"><span>enc  <span style="color:#f92672">=</span>  [<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x24</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x27</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x22</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x13</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x33</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x60</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x2a</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x36</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x2f</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x5b</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x3f</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x5f</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x27</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x24</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x38</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x49</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x41</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x14</span><span style="color:#e6db74">&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># enc[0] = 1 + ( flag[0] ^ key[0]) </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># flag[0] = &#39;G&#39; -&gt; key[0] = ((enc[0]-1) ^ &#39;G&#39;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;x&#39;</span>]
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> chr( (ord(enc[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;G&#39;</span>))
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> chr( (ord(enc[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;C&#39;</span>))
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> chr( (ord(enc[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;C&#39;</span>))
+</span></span><span style="display:flex;"><span>key[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> chr( (ord(enc[<span style="color:#ae81ff">3</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">^</span> ord(<span style="color:#e6db74">&#39;{&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># flag[i] = (enc[i]-1) ^ key[i%6]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> m1 <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">127</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> m2 <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">127</span>): 
+</span></span><span style="display:flex;"><span>        flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        key[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> chr(m1)
+</span></span><span style="display:flex;"><span>        key[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">=</span> chr(m2)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i, b <span style="color:#f92672">in</span> enumerate(enc):
+</span></span><span style="display:flex;"><span>            c <span style="color:#f92672">=</span> (ord(b)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">^</span> ord(key[i<span style="color:#f92672">%</span><span style="color:#ae81ff">6</span>])
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> c <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">and</span> c <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">127</span>:
+</span></span><span style="display:flex;"><span>                flag <span style="color:#f92672">+=</span> chr(c)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(flag) <span style="color:#f92672">==</span> len(enc) <span style="color:#f92672">and</span> flag[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;}&#39;</span>:
+</span></span><span style="display:flex;"><span>            print(flag)
+</span></span></code></pre></div><p>This script will find the first 4 bytes of the key from the flag prefix, then bruteforce the remaining 2 bytes of the key. Finding the flag is a simple process of picking the the most reasonable output.</p>
+<p>flag: <code>GCC{S1MPL3_0BFU!!}</code></p>
+]]></description>
+      
+    </item>
+    
     
     
     <item>

@@ -16,8 +16,12 @@
         
         
     
-    "articles": [{"date":"0001-01-01","image":"","imageAlt":"","link":"https://treseco.github.io/manifest/index.json","summary":"","tags":[],"title":"Manifest"},{"date":"0001-01-01","image":"","imageAlt":"","link":"https://treseco.github.io/search/","summary":"","tags":[],"title":"Search"}],
-    "test": "LACTF 2024 Writeups   Masked Squares Flag Checker   DUCTF solves   Either or Neither nor   Jurassic Park   ret2win   Ducky1   Ducky2   Ducky3   Welcome to Hell   Manifest   Search   ",
+        
+        
+        
+    
+    "articles": [{"date":"2023-03-30","image":"","imageAlt":"","link":"https://treseco.github.io/posts/umassctf23/welcome_to_hell/","summary":"Welcome To Hell Author: Battelle Rev 400 pts Description Welcome to hell, where all it seems that you can do is try to exit, maybe there is a flag hidden somewhere in this mess\nFiles welcome_to_hell - ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped\nReversing Opening welcome_to_hell in Ghidra shows a few functions. The only one that appears to do anything useful is entry, the first function in the binary.","tags":["ctf write-up","reversing","UMass CTF 2023"],"title":"Welcome to Hell"},{"date":"0001-01-01","image":"","imageAlt":"","link":"https://treseco.github.io/manifest/index.json","summary":"","tags":[],"title":"Manifest"},{"date":"0001-01-01","image":"","imageAlt":"","link":"https://treseco.github.io/search/","summary":"","tags":[],"title":"Search"}],
+    "test": "GCCCTF 2024 Writeups   LACTF 2024 Writeups   Masked Squares Flag Checker   DUCTF solves   Either or Neither nor   Jurassic Park   ret2win   Ducky1   Ducky2   Ducky3   Welcome to Hell   Manifest   Search   ",
     "page": "3",
     "next": ""
 }

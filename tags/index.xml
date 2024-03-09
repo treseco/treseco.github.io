@@ -5,15 +5,39 @@
     <description>Recent content in Tags on CT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Feb 2024 19:26:46 -0500</lastBuildDate><atom:link href="https://treseco.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
+    <lastBuildDate>Fri, 08 Mar 2024 15:31:05 -0500</lastBuildDate><atom:link href="https://treseco.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><icon>https://treseco.github.io/logo.svg</icon>
     
     
     <item>
       <title>ctf write-up</title>
       <link>https://treseco.github.io/tags/ctf-write-up/</link>
-      <pubDate>Sun, 18 Feb 2024 19:26:46 -0500</pubDate>
+      <pubDate>Fri, 08 Mar 2024 15:31:05 -0500</pubDate>
       
       <guid>https://treseco.github.io/tags/ctf-write-up/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>GCCCTF 2024</title>
+      <link>https://treseco.github.io/tags/gccctf-2024/</link>
+      <pubDate>Fri, 08 Mar 2024 15:31:05 -0500</pubDate>
+      
+      <guid>https://treseco.github.io/tags/gccctf-2024/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>reversing</title>
+      <link>https://treseco.github.io/tags/reversing/</link>
+      <pubDate>Fri, 08 Mar 2024 15:31:05 -0500</pubDate>
+      
+      <guid>https://treseco.github.io/tags/reversing/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -26,18 +50,6 @@
       <pubDate>Sun, 18 Feb 2024 19:26:46 -0500</pubDate>
       
       <guid>https://treseco.github.io/tags/lactf-2024/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>reversing</title>
-      <link>https://treseco.github.io/tags/reversing/</link>
-      <pubDate>Sun, 18 Feb 2024 19:26:46 -0500</pubDate>
-      
-      <guid>https://treseco.github.io/tags/reversing/</guid>
       <description><![CDATA[]]></description>
       
     </item>
